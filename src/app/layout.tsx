@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import FarcasterSessionWrapper from '@/providers/FarcasterSessionWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -11,12 +12,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  session,
 }: Readonly<{
   children: React.ReactNode;
+  session: any;
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className} suppressHydrationWarning={true}>
+        <FarcasterSessionWrapper session={session}>
+          {children}
+        </FarcasterSessionWrapper>
+      </body>
     </html>
   );
 }

@@ -27,6 +27,7 @@ export default function CrossmintWrapper(props: { children: React.ReactNode }) {
   }, [ready, authenticated]);
 
   console.log({ jwt });
+  debugger;
   return (
     <CrossmintProvider
       apiKey={process.env.NEXT_PUBLIC_CROSSMINT_API_KEY || ''}

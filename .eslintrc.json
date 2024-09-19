@@ -54,7 +54,7 @@
     "no-return-assign": ["error", "except-parens"],
     "no-useless-return": "error",
     "prefer-const": ["error", { "destructuring": "all" }],
-    "no-unused-vars": ["warn"],
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "array-bracket-spacing": ["error", "never"],

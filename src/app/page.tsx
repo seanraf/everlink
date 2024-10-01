@@ -1,52 +1,71 @@
 'use client';
 
-import LoginButton from '@/components/LoginButton';
-import LogoutButton from '@/components/LogoutButton';
-import { usePrivy } from '@privy-io/react-auth';
+import { useAuth, useWallet } from '@crossmint/client-sdk-react-ui';
 
 export default function Home() {
-  const { ready, authenticated, user } = usePrivy();
-
-  // Wait until the Privy client is ready before taking any actions
-  if (!ready) {
-    return null;
-  }
-
-  if (ready && !authenticated) {
-    // Replace this code with however you'd like to handle an unauthenticated user
-    // As an example, you might redirect them to a login page
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
-        <LoginButton />
+  return (
+    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+      <div className='absolute top-0 right-0 p-4'>
+        <AuthButton />
       </div>
-    );
-  }
-
-  if (ready && authenticated) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-          height: '100vh',
-        }}
-      >
-        <p>Hi {user?.farcaster?.displayName}.</p>
-        <br />
-        <p> {user?.farcaster?.bio}.</p>
-        <br />
-
-        <LogoutButton />
+      <div className='flex items-center justify-center w-full h-full'>
+        <Wallet />
       </div>
-    );
-  }
+    </main>
+  );
+}
+
+function AuthButton() {
+  const { login, logout, jwt } = useAuth();
+
+  return (
+    <div>
+      {jwt == null ? (
+        <button
+          type='button'
+          onClick={login}
+          className='bg-blue-500 text-white font-bold py-2 px-4 rounded'
+        >
+          Login
+        </button>
+      ) : (
+        <button
+          type='button'
+          onClick={logout}
+          className='bg-black text-white font-bold py-2 px-4 rounded border-2 border-blue-500'
+        >
+          Logout
+        </button>
+      )}
+    </div>
+  );
+}
+
+function Wallet() {
+  const { wallet, status, error } = useWallet();
+
+  return (
+    <div>
+      {status === 'loading-error' && error && (
+        <div className='border-2 border-red-500 text-red-500 font-bold py-4 px-8 rounded-lg'>
+          Error: {error.message}
+        </div>
+      )}
+      {status === 'in-progress' && (
+        <div className='border-2 border-yellow-500 text-yellow-500 font-bold py-4 px-8 rounded-lg'>
+          Loading...
+        </div>
+      )}
+      {status === 'loaded' && wallet && (
+        <div className='border-2 border-green-500 text-green-500 font-bold py-4 px-8 rounded-lg'>
+          Wallet: {wallet.address}
+        </div>
+      )}
+      {status === 'not-loaded' && (
+        <div className='border-2 border-gray-500 text-gray-500 font-bold py-4 px-8 rounded-lg'>
+          Wallet not loaded
+        </div>
+      )}
+    </div>
+  );
 }

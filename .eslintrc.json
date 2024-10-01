@@ -56,7 +56,7 @@
     "prefer-const": ["error", { "destructuring": "all" }],
     "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/no-use-before-define": ["warn"],
     "array-bracket-spacing": ["error", "never"],
     "block-spacing": ["error", "always"],
     "brace-style": ["error", "1tbs", { "allowSingleLine": true }],

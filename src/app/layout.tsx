@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import PrivyWrapper from '@/Providers/PrivyProvider';
-import CrossmintWrapper from '@/Providers/CrossmintProvyWrapper';
+import CrossmintWrapper from '@/Providers/CrossmintWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,11 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <PrivyWrapper>
-        <CrossmintWrapper>
-          <body className={inter.className}>{children}</body>
-        </CrossmintWrapper>
-      </PrivyWrapper>
+      <body className={inter.className}>
+        <CrossmintWrapper>{children}</CrossmintWrapper>
+      </body>
     </html>
   );
 }

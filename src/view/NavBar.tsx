@@ -19,6 +19,7 @@ const styles = {
   typography: {
     my: 'auto',
     fontSize: '21px',
+    fontFamily: 'Brolink Demo, sans-serif',
   },
 };
 export default function NavBar() {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuth, useWallet } from '@crossmint/client-sdk-react-ui';
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -16,11 +17,12 @@ export default function Home() {
 }
 
 function AuthButton() {
-  const { login, logout, jwt } = useAuth();
+  const { login, logout, user, jwt } = useAuth();
+  console.log('🚀 ~ AuthButton ~ user:', user);
 
   return (
-    <div>
-      {jwt == null ? (
+    <div className='flex gap-4 justify-content-center'>
+      {user == null ? (
         <button
           type='button'
           onClick={login}
@@ -37,6 +39,35 @@ function AuthButton() {
           Logout
         </button>
       )}
+      {/* <p>Google display name: {user?.google?.displayName ?? 'None'}</p> */}
+      {/* <p>JWT: {jwt}</p> */}
+      {!!user ? (
+        <div className='card'>
+          <img
+            src={user?.farcaster?.pfpUrl ?? ''}
+            alt='Avatar'
+            // width={100}
+            // height={100}
+            style={{ width: '100%' }}
+          />
+          <div className='container'>
+            {/* <p>Email: {user?.email ?? 'Not email'}</p> */}
+            {/* <p>Phone Number: {user?.phoneNumber ?? 'Not phone number'}</p> */}
+            <p>
+              <b>Username:</b> {user?.farcaster?.username ?? 'None'}
+            </p>
+            <br />
+            <p>
+              {' '}
+              <b>Bio:</b> {user?.farcaster?.bio ?? 'None'}
+            </p>
+            <br />
+          </div>
+        </div>
+      ) : null}{' '}
+      <>
+        <br />
+      </>
     </div>
   );
 }

@@ -14,6 +14,5 @@ export function middleware(req: NextRequest) {
     }
   }
 
-  // Allow the request to proceed if token exists or it's not a protected route
   return NextResponse.next();
 }

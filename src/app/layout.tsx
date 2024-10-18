@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import NavBar from '@/view/NavBar';
 import Providers from '@/providers/provider';
+import CrossmintProvider from '@/providers/Crossmint';
 
 export const metadata: Metadata = {
   title: 'Everlink',
@@ -16,10 +17,12 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body suppressHydrationWarning={true}>
-        <Providers>
-          <NavBar />
-          {children}
-        </Providers>
+        <CrossmintProvider>
+          <Providers>
+            <NavBar />
+            {children}
+          </Providers>
+        </CrossmintProvider>
       </body>
     </html>
   );

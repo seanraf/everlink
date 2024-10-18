@@ -1,3 +1,5 @@
+'use client';
+import { useAuth } from '@crossmint/client-sdk-react-ui';
 import { Box, Button, Container, Typography } from '@mui/material';
 import Image from 'next/image';
 
@@ -42,6 +44,8 @@ const styles = {
   },
 };
 export default function LandingPage() {
+  const { login, user } = useAuth();
+
   return (
     <>
       <Box sx={styles.outerBox}>
@@ -63,15 +67,17 @@ export default function LandingPage() {
               </Typography>
               <Typography>No subscriptions. No hidden fees.</Typography>
             </Box>
-            <Button sx={styles.farcasterConnectingButton}>
-              <Image
-                src={'/FarcasterLogo.svg'}
-                alt='Icon'
-                width={25.86}
-                height={24}
-              />
-              Connect with Farcaster
-            </Button>
+            {!user && (
+              <Button sx={styles.farcasterConnectingButton} onClick={login}>
+                <Image
+                  src={'/FarcasterLogo.svg'}
+                  alt='Icon'
+                  width={25.86}
+                  height={24}
+                />
+                Connect with Farcaster
+              </Button>
+            )}
           </Box>
           <Box>
             <Image

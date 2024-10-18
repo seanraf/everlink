@@ -8,7 +8,6 @@ export function middleware(req: NextRequest) {
   if (protectedPaths.some((path) => req.nextUrl.pathname.startsWith(path))) {
     const token = req.cookies.get('crossmint-jwt');
 
-    // If no token, redirect the user to the login page
     if (!token) {
       return NextResponse.redirect(new URL('/', req.url));
     }

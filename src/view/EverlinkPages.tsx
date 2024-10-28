@@ -53,6 +53,35 @@ export default function EverlinkPages() {
     }
   };
 
+  const renderActiveStep = () => {
+    switch (activeStep) {
+      case 0:
+        return (
+          <Form
+            userName={userName}
+            setUserName={setUserName}
+            bio={bio}
+            setBio={setBio}
+            setActiveStep={setActiveStep}
+            analyticsTag={analyticsTag}
+            setAnalyticsTag={setAnalyticsTag}
+            urlButtons={urlButtons}
+            setUrlButtons={setUrlButtons}
+          />
+        );
+      case 1:
+        return (
+          <SelectTheme
+            setSelectedTheme={setSelectedTheme}
+            selectedTheme={selectedTheme}
+            setActiveStep={setActiveStep}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <Box bgcolor={'#F9FAFB'}>
       <Grid2
@@ -79,34 +108,7 @@ export default function EverlinkPages() {
             <Box sx={styles.stepperBox}>
               <LinearStepper activeStep={activeStep} />
             </Box>
-            {(() => {
-              switch (activeStep) {
-                case 0:
-                  return (
-                    <Form
-                      userName={userName}
-                      setUserName={setUserName}
-                      bio={bio}
-                      setBio={setBio}
-                      setActiveStep={setActiveStep}
-                      analyticsTag={analyticsTag}
-                      setAnalyticsTag={setAnalyticsTag}
-                      urlButtons={urlButtons}
-                      setUrlButtons={setUrlButtons}
-                    />
-                  );
-                case 1:
-                  return (
-                    <SelectTheme
-                      setSelectedTheme={setSelectedTheme}
-                      selectedTheme={selectedTheme}
-                      setActiveStep={setActiveStep}
-                    />
-                  );
-                default:
-                  return null;
-              }
-            })()}
+            {renderActiveStep()}
           </Box>
         </Grid2>
         <Grid2

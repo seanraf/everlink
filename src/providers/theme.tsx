@@ -1,5 +1,10 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, ThemeOptions } from '@mui/material/styles';
 
+interface CustomOptions extends ThemeOptions {
+  dark: {
+    main: string;
+  };
+}
 export const theme = createTheme({
   palette: {
     primary: {
@@ -14,6 +19,9 @@ export const theme = createTheme({
       primary: '#170F49',
       secondary: '#2D3648',
     },
+    dark: {
+      main: '#252525',
+    },
   },
   typography: {
     allVariants: {
@@ -22,16 +30,4 @@ export const theme = createTheme({
     },
     fontFamily: 'Helvetica Neue',
   },
-  components: {
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          fontSize: '14px',
-          '@media (min-width:600px)': {
-            fontSize: '16px',
-          },
-        },
-      },
-    },
-  },
-});
+} as unknown as CustomOptions);

@@ -10,6 +10,8 @@ export type UrlButtonErrors = {
   url: string;
 };
 
+export type ThemeCards = { id: string; themeName: string; theme: JSX.Element };
+
 export type URLButtonsProps = {
   urlButtons: UrlButton[];
   setUrlButtons: React.Dispatch<React.SetStateAction<UrlButton[]>>;
@@ -29,4 +31,10 @@ export type DraggableItemProps = {
   handleDelete: (index: number) => void;
   error: { title: string; url: string };
   urlButtonsLength: number;
+};
+
+export type SelectThemeProps = {
+  selectedTheme: string;
+  setSelectedTheme: React.Dispatch<React.SetStateAction<string>>;
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
 };

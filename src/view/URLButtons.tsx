@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
+import Image from 'next/image';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import {
@@ -9,7 +9,6 @@ import {
   Grid2,
   Typography,
   IconButton,
-  InputAdornment,
 } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { DraggableItemProps, UrlButton, URLButtonsProps } from '@/types';
@@ -39,10 +38,13 @@ const styles = {
     width: '100%',
     gap: 1,
   },
-  addButtonBox: {
+  addButtonSection: {
     display: 'flex',
     justifyContent: 'end',
     mt: 2,
+  },
+  addButtonBox: {
+    display: 'flex',
     cursor: 'pointer',
   },
   addRoundedIcon: {
@@ -59,6 +61,21 @@ const styles = {
   inputLabel: {
     color: 'text.secondary',
     fontWeight: 500,
+    fontSize: { md: 16, xs: 14 },
+    '& .MuiTypography-root': { fontSize: { md: 16, xs: 14 } },
+  },
+  iconButtonforLarge: {
+    color: 'red',
+    mt: '10px',
+    width: 24,
+    height: 24,
+  },
+  iconButtonforSmall: {
+    color: 'red',
+    position: 'absolute',
+    right: 5,
+    bottom: 0,
+    top: 0,
   },
 };
 const DraggableItem: React.FC<DraggableItemProps> = ({
@@ -102,15 +119,44 @@ const DraggableItem: React.FC<DraggableItemProps> = ({
       <Box sx={styles.dragIcon}>
         <Image src={'/DragIcon.svg'} alt='Drag Icon' height={45} width={12} />
       </Box>
-      <Box width={'100%'}>
-        <Grid2 container spacing={2}>
+      <Box
+        width={'100%'}
+        sx={{ display: 'flex' }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <Grid2
+          container
+          spacing={2}
+          style={{ position: 'relative', width: '100%' }}
+        >
           <Grid2 size={{ md: 6, xs: 12 }}>
             <Box>
               <InputLabel
                 htmlFor='input-with-icon-adornment'
                 sx={{ ...styles.inputLabel, mt: 2 }}
               >
-                Button Label
+                <Box sx={{ display: 'flex', position: 'relative' }}>
+                  <Typography>Button Label</Typography>
+                  <IconButton
+                    edge='end'
+                    sx={{
+                      ...styles.iconButtonforSmall,
+                      visibility: {
+                        md: 'hidden',
+                        xs: urlButtonsLength === 1 ? 'hidden' : 'visible',
+                      },
+                    }}
+                    onClick={() => handleDelete(index)}
+                  >
+                    <Image
+                      src={'/DeleteIcon.svg'}
+                      alt='Delete'
+                      width={20}
+                      height={20}
+                    />
+                  </IconButton>
+                </Box>
               </InputLabel>
               <TextField
                 InputProps={{
@@ -146,11 +192,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({
               >
                 URL
               </InputLabel>
-              <Box
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                style={{ position: 'relative', width: '100%' }}
-              >
+              <Box>
                 <TextField
                   InputProps={{
                     inputProps: {
@@ -161,31 +203,6 @@ const DraggableItem: React.FC<DraggableItemProps> = ({
                         backgroundColor: '#F8F8F8',
                       },
                     },
-
-                    endAdornment: (
-                      <InputAdornment
-                        position='end'
-                        sx={{
-                          display: urlButtonsLength === 1 ? 'none' : 'flex',
-                        }}
-                      >
-                        <IconButton
-                          edge='end'
-                          sx={{
-                            color: 'red',
-                            visibility: isHovered ? 'visible' : 'hidden',
-                          }}
-                          onClick={() => handleDelete(index)}
-                        >
-                          <Image
-                            src={'/DeleteIcon.svg'}
-                            alt='Delete'
-                            width={24}
-                            height={24}
-                          />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
                   }}
                   sx={styles.textField}
                   value={button.url}
@@ -201,6 +218,29 @@ const DraggableItem: React.FC<DraggableItemProps> = ({
             </Box>
           </Grid2>
         </Grid2>
+        <Box
+          sx={{
+            display: {
+              md: isHovered && urlButtonsLength !== 1 ? 'flex' : 'none',
+              xs: 'none',
+            },
+            mt: '50px',
+            ml: 1,
+          }}
+        >
+          <IconButton
+            edge='end'
+            sx={styles.iconButtonforLarge}
+            onClick={() => handleDelete(index)}
+          >
+            <Image
+              src={'/DeleteIcon.svg'}
+              alt='Delete'
+              width={24}
+              height={24}
+            />
+          </IconButton>
+        </Box>
       </Box>
     </Box>
   );
@@ -265,9 +305,11 @@ const URLButtons: React.FC<URLButtonsProps> = ({
           />
         ))}
       </Box>
-      <Box color='primary' onClick={addButton} sx={styles.addButtonBox}>
-        <AddRoundedIcon sx={styles.addRoundedIcon} />
-        <Typography sx={styles.addButton}>Add Button</Typography>
+      <Box sx={styles.addButtonSection}>
+        <Box sx={styles.addButtonBox} onClick={addButton}>
+          <AddRoundedIcon sx={styles.addRoundedIcon} />
+          <Typography sx={styles.addButton}>Add Button</Typography>
+        </Box>
       </Box>
     </DndProvider>
   );

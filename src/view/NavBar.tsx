@@ -94,10 +94,9 @@ export default function NavBar() {
                   <Box>
                     <Avatar alt='User Profile' src={user?.farcaster?.pfpUrl} />
                   </Box>
-                  <Box>
+                  <Box sx={{ '& .MuiTypography-root': { fontSize: '13px' } }}>
                     <Typography
                       sx={{
-                        fontSize: '13px !important',
                         fontWeight: 500,
                       }}
                     >
@@ -105,7 +104,6 @@ export default function NavBar() {
                     </Typography>
                     <Typography
                       sx={{
-                        fontSize: '13px !important',
                         fontWeight: 400,
                         color: '#6F6C90',
                       }}
@@ -123,8 +121,8 @@ export default function NavBar() {
                     sx={{
                       color: '#6F6C8F',
                       '&:hover': {
-                        backgroundColor: 'inherit', // Keeps the background color unchanged
-                        boxShadow: 'none', // Removes any shadow effect on hover
+                        backgroundColor: 'inherit',
+                        boxShadow: 'none',
                       },
                     }}
                     startIcon={<LogoutIcon />}

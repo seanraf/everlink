@@ -4,6 +4,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Box, Button, InputLabel, TextField, Typography } from '@mui/material';
 import { UrlButton, UrlButtonErrors } from '@/types';
+import { useAuth } from '@crossmint/client-sdk-react-ui';
 
 const styles = {
   composeLinkList: {
@@ -80,6 +81,7 @@ const From = ({
   urlButtons,
   setUrlButtons,
 }: any) => {
+  const { user } = useAuth();
   const [showOptionalField, setShowOptionalField] = useState(false);
   const [usernameError, setUsernameError] = useState('');
   const [bioError, setBioError] = useState('');
@@ -173,7 +175,7 @@ const From = ({
             fullWidth
             id='outlined-basic'
             variant='outlined'
-            value={userName}
+            value={user?.farcaster?.username || userName}
             onChange={(e) => setUserName(e.target.value)}
             error={!!usernameError}
             helperText={usernameError}
@@ -202,7 +204,7 @@ const From = ({
             rows={2}
             id='outlined-basic'
             variant='outlined'
-            value={bio}
+            value={user?.farcaster?.bio || bio}
             onChange={(e) => setBio(e.target.value)}
             error={!!bioError}
             helperText={bioError}

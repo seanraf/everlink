@@ -24,6 +24,7 @@ const styles = {
     color: 'text.secondary',
     mt: 2,
     fontWeight: 500,
+    fontSize: { md: 16, xs: 14 },
   },
   textFields: {
     mt: 1,
@@ -53,7 +54,13 @@ const styles = {
     width: 30,
     ml: -1,
   },
-  analyticsTagBox: { mt: 2, flexDirection: 'column' },
+  analyticsTagBox: {
+    mt: 2,
+    flexDirection: 'column',
+    '& .MuiTypography-root': {
+      fontSize: { md: 16, xs: 14 },
+    },
+  },
   analyticsTagLabel: { display: 'flex', justifyContent: 'space-between' },
   nextButton: {
     bgcolor: 'secondary.main',

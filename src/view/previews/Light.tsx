@@ -46,6 +46,7 @@ export default function Light({
       <Typography sx={styles.bio}>{bio}</Typography>
       {urlButtons?.map((item) => (
         <Button
+          key={item.id}
           sx={styles.button}
           variant='outlined'
           component='a'

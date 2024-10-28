@@ -20,6 +20,12 @@ const styles = {
     borderRadius: 3,
     boxShadow: '0px 4.03px 12.89px 0px #080F340F',
   },
+  stepperBox: { borderBottom: '1px solid #D9DBE9', pb: 2, mb: 3 },
+  previewBox: {
+    width: { md: '90%', sm: '75%', xs: '90%' },
+    mx: 'auto',
+    display: 'flex',
+  },
 };
 
 export default function EverlinkPages() {
@@ -70,7 +76,7 @@ export default function EverlinkPages() {
             }}
           >
             {' '}
-            <Box sx={{ borderBottom: '1px solid #D9DBE9', pb: 2, mb: 3 }}>
+            <Box sx={styles.stepperBox}>
               <LinearStepper activeStep={activeStep} />
             </Box>
             {(() => {
@@ -98,7 +104,7 @@ export default function EverlinkPages() {
                     />
                   );
                 default:
-                  return;
+                  return null;
               }
             })()}
           </Box>
@@ -113,15 +119,7 @@ export default function EverlinkPages() {
             justifyContent: 'center',
           }}
         >
-          <Box
-            sx={{
-              width: { md: '90%', sm: '75%', xs: '90%' },
-              mx: 'auto',
-              display: 'flex',
-            }}
-          >
-            {renderThemePreview()}
-          </Box>
+          <Box sx={styles.previewBox}>{renderThemePreview()}</Box>
         </Grid2>
       </Grid2>
       <Box display={activeStep === 2 ? 'flex' : 'none'}>

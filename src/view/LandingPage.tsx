@@ -69,7 +69,7 @@ export default function LandingPage() {
         if (!response.ok) {
           throw new Error('Failed to register the user');
         }
-        const result = await response.json();
+        const _result = await response.json();
         setIsUserRegistered(true);
       } catch (err: unknown) {
         if (err instanceof Error) {

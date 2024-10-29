@@ -2,6 +2,7 @@
 import { useAuth } from '@crossmint/client-sdk-react-ui';
 import { Box, Button, Container, Typography } from '@mui/material';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 const styles = {
   outerBox: {
@@ -45,7 +46,46 @@ const styles = {
 };
 export default function LandingPage() {
   const { login, user } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isUserRegistered, setIsUserRegistered] = useState(false);
 
+  useEffect(() => {
+    const registerUser = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/register`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fid: user?.farcaster?.fid,
+              username: user?.farcaster?.username,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to register the user');
+        }
+        const result = await response.json();
+        setIsUserRegistered(true);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message); // `Error` type includes the `message` property
+        } else {
+          setError('An unknown error occurred');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user && !isUserRegistered) {
+      registerUser();
+    }
+  }, [user, isUserRegistered]);
   return (
     <>
       <Box sx={styles.outerBox}>
@@ -88,6 +128,8 @@ export default function LandingPage() {
               style={{ width: '100%', height: 'auto' }}
             />
           </Box>
+          {loading && <Typography>Loading...</Typography>}
+          {error && <Typography color='error'>{error}</Typography>}
         </Container>
       </Box>
     </>

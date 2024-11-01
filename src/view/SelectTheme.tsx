@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Grid2, Typography } from '@mui/material';
+import { Box, Grid2, Typography } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { DarkTheme, LightTheme } from './Themes';
 import { SelectThemeProps } from '@/types';
@@ -33,7 +33,6 @@ const styles = {
 export default function SelectTheme({
   selectedTheme,
   setSelectedTheme,
-  setActiveStep,
 }: SelectThemeProps) {
   const handleCardClick = (themeId: string) => {
     setSelectedTheme(themeId);
@@ -53,14 +52,6 @@ export default function SelectTheme({
       ),
     },
   ];
-
-  const handleBack = () => {
-    setActiveStep(0);
-  };
-
-  const handleMint = () => {
-    setActiveStep(2);
-  };
 
   return (
     <Box>
@@ -106,29 +97,6 @@ export default function SelectTheme({
           </Grid2>
         ))}
       </Grid2>
-      <Box sx={styles.buttonsBox}>
-        <Button
-          sx={{
-            ...styles.buttons,
-            color: 'secondary.main',
-          }}
-          variant='outlined'
-          onClick={handleBack}
-        >
-          Back
-        </Button>
-        <Button
-          sx={{
-            ...styles.buttons,
-            bgcolor: 'secondary.main',
-            color: 'primary.contrastText',
-          }}
-          variant='outlined'
-          onClick={handleMint}
-        >
-          Mint
-        </Button>
-      </Box>
     </Box>
   );
 }

@@ -8,13 +8,14 @@ import SelectTheme from './SelectTheme';
 import Dark from './previews/Dark';
 import Light from './previews/Light';
 import ThankYou from './ThankYou';
+import Minter from './Minter';
 
 const styles = {
   mainBox: {
     display: 'flex',
     flexDirection: 'column',
     mx: 'auto',
-    mt: '74px',
+    my: '74px',
     bgcolor: 'primary.contrastText',
     p: { md: '40px 24px', xs: '24px 16px' },
     borderRadius: 3,
@@ -71,11 +72,19 @@ export default function EverlinkPages() {
         );
       case 1:
         return (
-          <SelectTheme
-            setSelectedTheme={setSelectedTheme}
-            selectedTheme={selectedTheme}
-            setActiveStep={setActiveStep}
-          />
+          <>
+            <SelectTheme
+              setSelectedTheme={setSelectedTheme}
+              selectedTheme={selectedTheme}
+            />
+            <Minter
+              userName={userName}
+              bio={bio}
+              setActiveStep={setActiveStep}
+              urlButtons={urlButtons}
+              selectedTheme={selectedTheme}
+            />
+          </>
         );
       default:
         return null;
@@ -99,7 +108,7 @@ export default function EverlinkPages() {
               width: {
                 md: activeStep === 0 ? '50%' : '85%',
                 sm: '70%',
-                xs: '85%',
+                xs: '90%',
               },
               ...styles.mainBox,
             }}

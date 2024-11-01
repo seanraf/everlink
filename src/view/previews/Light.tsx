@@ -1,37 +1,7 @@
 import React from 'react';
-import { Box, Button, Typography } from '@mui/material';
 import { UrlButton } from '@/types';
 
-const styles = {
-  containerBox: {
-    width: '90%',
-    mx: 'auto',
-    mb: 'auto',
-    justifyContent: 'center',
-    border: '1px solid black',
-    borderRadius: '16px',
-    textAlign: 'center',
-    p: '32px 24px',
-    bgcolor: 'primary.contrastText',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: { md: 2, xs: 1.5 },
-    '& .MuiTypography-root': {
-      color: 'dark.main',
-    },
-  },
-  button: {
-    bgcolor: 'dark.main',
-    color: 'primary.contrastText',
-    border: 'none',
-    py: { md: 1.75, xs: 1 },
-    borderRadius: '8px',
-  },
-  userName: { fontSize: { md: '29.58px', xs: '24px' } },
-  bio: { fontSize: { md: '14px', xs: '12px' } },
-};
-
-export default function Light({
+export default function Dark({
   userName,
   bio,
   urlButtons,
@@ -40,23 +10,62 @@ export default function Light({
   bio: string;
   urlButtons: UrlButton[];
 }) {
+  const containerBoxStyles: React.CSSProperties = {
+    width: '90%',
+    justifyContent: 'center',
+    border: '1px solid #252525',
+    marginBottom: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    textAlign: 'center',
+    padding: '32px 24px',
+    backgroundColor: '#FFFFFF',
+    borderRadius: '16px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: window.innerWidth >= 768 ? '17px' : '12px',
+  };
+
+  const userNameStyles: React.CSSProperties = {
+    fontSize: window.innerWidth >= 768 ? '29.58px' : '24px',
+    fontWeight: 'bold',
+    fontFamily: '"Helvetica Neue", sans-serif',
+    lineHeight: 1.5,
+    color: '#252525',
+  };
+
+  const bioStyles: React.CSSProperties = {
+    fontSize: window.innerWidth >= 768 ? '14px' : '12px',
+    fontFamily: '"Helvetica Neue", sans-serif',
+    lineHeight: 1.5,
+    color: '#252525',
+  };
+
+  const buttonStyles: React.CSSProperties = {
+    backgroundColor: '#252525',
+    color: '#FFFFFF',
+    padding: window.innerWidth >= 768 ? '15px' : '8px',
+    border: 'none',
+    borderRadius: '8px',
+    textDecoration: 'none',
+    lineHeight: 1.5,
+    fontFamily: '"Helvetica Neue", sans-serif',
+  };
   return (
-    <Box sx={styles.containerBox}>
-      <Typography sx={styles.userName}>{userName}</Typography>
-      <Typography sx={styles.bio}>{bio}</Typography>
+    <div style={containerBoxStyles}>
+      <h1 style={userNameStyles}>{userName}</h1>
+      <p style={bioStyles}>{bio}</p>
       {urlButtons?.map((item) => (
-        <Button
-          key={item.id}
-          sx={styles.button}
-          variant='outlined'
-          component='a'
+        <a
+          key={item?.id}
+          style={buttonStyles}
           href={item?.url}
           target='_blank'
           rel='noopener noreferrer'
         >
           {item?.title}
-        </Button>
+        </a>
       ))}
-    </Box>
+    </div>
   );
 }

@@ -14,7 +14,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { DraggableItemProps, UrlButton, URLButtonsProps } from '@/types';
 
 const styles = {
-  dragIcon: { display: 'flex', mt: '37px' },
+  dragIcon: { mt: { md: '40px', xs: '37px' } },
   textField: {
     mt: 1,
     '& .MuiOutlinedInput-root': {
@@ -66,9 +66,9 @@ const styles = {
   },
   iconButtonforLarge: {
     color: 'red',
-    mt: '10px',
-    width: 24,
-    height: 24,
+    mt: '3px',
+    width: 36,
+    height: 36,
   },
   iconButtonforSmall: {
     color: 'red',
@@ -176,8 +176,8 @@ const DraggableItem: React.FC<DraggableItemProps> = ({
                 fullWidth
                 id='outlined-basic'
                 variant='outlined'
-                error={!!error.title}
-                helperText={error.title}
+                error={!!error?.title}
+                helperText={error?.title}
               />
             </Box>
           </Grid2>
@@ -211,8 +211,8 @@ const DraggableItem: React.FC<DraggableItemProps> = ({
                   fullWidth
                   id='outlined-basic'
                   variant='outlined'
-                  error={!!error.url}
-                  helperText={error.url}
+                  error={!!error?.url}
+                  helperText={error?.url}
                 />
               </Box>
             </Box>

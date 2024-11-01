@@ -36,5 +36,12 @@ export type DraggableItemProps = {
 export type SelectThemeProps = {
   selectedTheme: string;
   setSelectedTheme: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export type MinterProps = {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  selectedTheme: string;
+  userName: string;
+  bio: string;
+  urlButtons: UrlButton[];
 };

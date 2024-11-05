@@ -35,6 +35,8 @@ export default function EverlinkPages() {
   const [bio, setBio] = useState('');
   const [analyticsTag, setAnalyticsTag] = useState('');
   const [selectedTheme, setSelectedTheme] = useState('');
+  const [domain, setDomain] = useState<string | null>('');
+  const [deploymentLoading, setDeploymentLoading] = useState<boolean>(false);
   const [urlButtons, setUrlButtons] = useState<UrlButton[]>([
     { id: '1', title: '', url: '' },
   ]);
@@ -83,6 +85,8 @@ export default function EverlinkPages() {
               setActiveStep={setActiveStep}
               urlButtons={urlButtons}
               selectedTheme={selectedTheme}
+              setDomain={setDomain}
+              setDeploymentLoading={setDeploymentLoading}
             />
           </>
         );
@@ -134,7 +138,7 @@ export default function EverlinkPages() {
         </Grid2>
       </Grid2>
       <Box display={activeStep === 2 ? 'flex' : 'none'}>
-        <ThankYou />
+        <ThankYou domain={domain} deploymentLoading={deploymentLoading} />
       </Box>
     </Box>
   );

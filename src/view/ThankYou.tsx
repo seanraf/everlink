@@ -53,7 +53,6 @@ const styles = {
     wordBreak: 'break-all',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    ml: 1,
   },
   iconBox: {
     display: 'flex',
@@ -75,14 +74,17 @@ const styles = {
     },
   },
 };
-export default function ThankYou() {
-  const [link, setLink] = useState(
-    'https://example.com/your-personalized-link'
-  );
+export default function ThankYou({
+  domain,
+  deploymentLoading,
+}: {
+  domain: string | null;
+  deploymentLoading: boolean;
+}) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(link);
+    navigator.clipboard.writeText(domain || '');
     setTooltipOpen(true);
 
     setTimeout(() => {
@@ -113,7 +115,18 @@ export default function ThankYou() {
               height={25.94}
             />
           </Box>
-          <Typography sx={styles.linkText}>{link}</Typography>
+          <Box flexGrow={1} overflow={'hidden'} ml={1}>
+            {' '}
+            {deploymentLoading ? (
+              <>
+                <Typography sx={styles.linkText}>Loading...</Typography>
+              </>
+            ) : (
+              <>
+                <Typography sx={styles.linkText}>{domain}</Typography>
+              </>
+            )}
+          </Box>
           <Tooltip
             title='Copied!'
             open={tooltipOpen}

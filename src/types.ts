@@ -44,4 +44,26 @@ export type MinterProps = {
   userName: string;
   bio: string;
   urlButtons: UrlButton[];
+  setDomain: React.Dispatch<React.SetStateAction<string | null>>;
+  setDeploymentLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type DomainContent = {
+  domainList: string[];
+  taskId: string;
+};
+
+export type DeploymentRecord = {
+  _id: string;
+  domainList: string[];
+  taskId: string;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: {
+    _id: string;
+    farcasterId: string;
+    username: string;
+    createdAt: string;
+    updatedAt: string;
+  };
 };

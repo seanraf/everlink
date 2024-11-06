@@ -47,7 +47,7 @@ export default function Minter({
 
   const getHtmlPath = async (retrievedHash: string) => {
     try {
-      const url = `${process.env.NEXT_PUBLIC_TOKEN_ID}/${retrievedHash}`;
+      const url = `${process.env.NEXT_PUBLIC_4EVERLAND_DOMAIN_BASE_URL}/${retrievedHash}`;
       const urlResponse = await axios.get(url);
       const indexHtmlId = urlResponse.data.paths?.['index.html']?.id;
 
@@ -86,7 +86,9 @@ export default function Minter({
           clearInterval(poll);
           setDeploymentLoading(false);
           const htmlPath = await getHtmlPath(retrievedHash);
-          setDomain(`${process.env.NEXT_PUBLIC_TOKEN_ID}/${htmlPath}`);
+          setDomain(
+            `${process.env.NEXT_PUBLIC_4EVERLAND_DOMAIN_BASE_URL}/${htmlPath}`
+          );
         } else if (attempts >= maxAttempts) {
           console.error('Domain not found after maximum attempts');
           clearInterval(poll);

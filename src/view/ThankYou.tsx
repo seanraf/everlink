@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Tooltip, Typography } from '@mui/material';
 import Image from 'next/image';
+import { Domain } from '@/types';
 
 const styles = {
   containerBox: {
@@ -78,13 +79,13 @@ export default function ThankYou({
   domain,
   deploymentLoading,
 }: {
-  domain: string | null;
+  domain: Domain;
   deploymentLoading: boolean;
 }) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(domain || '');
+    navigator.clipboard.writeText(domain?.url || '');
     setTooltipOpen(true);
 
     setTimeout(() => {
@@ -123,7 +124,7 @@ export default function ThankYou({
               </>
             ) : (
               <>
-                <Typography sx={styles.linkText}>{domain}</Typography>
+                <Typography sx={styles.linkText}>{domain?.url}</Typography>
               </>
             )}
           </Box>

@@ -44,13 +44,19 @@ export type MinterProps = {
   userName: string;
   bio: string;
   urlButtons: UrlButton[];
-  setDomain: React.Dispatch<React.SetStateAction<string | null>>;
+  domain: Domain;
+  setDomain: React.Dispatch<React.SetStateAction<Domain>>;
   setDeploymentLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type DomainContent = {
   domainList: string[];
   taskId: string;
+};
+
+export type Domain = {
+  url: string;
+  arweaveUrl: string;
 };
 
 export type DeploymentRecord = {

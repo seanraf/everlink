@@ -40,6 +40,7 @@ export default function Minter({
   userName,
   bio,
   urlButtons,
+  domain,
   setDomain,
   setDeploymentLoading,
 }: MinterProps) {
@@ -47,7 +48,7 @@ export default function Minter({
 
   const getHtmlPath = async (retrievedHash: string) => {
     try {
-      const url = `${process.env.NEXT_PUBLIC_TOKEN_ID}/${retrievedHash}`;
+      const url = `${process.env.NEXT_PUBLIC_4EVERLAND_DOMAIN_BASE_URL}/${retrievedHash}`;
       const urlResponse = await axios.get(url);
       const indexHtmlId = urlResponse.data.paths?.['index.html']?.id;
 
@@ -59,6 +60,21 @@ export default function Minter({
       }
     } catch (error) {
       console.error('Error retrieving final URL:', error);
+    }
+  };
+
+  const saveDomainData = async (taskId: string | undefined) => {
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/deploymentHistory/${taskId}`,
+        {
+          url: domain?.url,
+          arweaveUrl: domain?.arweaveUrl,
+        }
+      );
+      console.log('Domain data saved successfully:', response);
+    } catch (error) {
+      console.error('Error saving domain data:', error);
     }
   };
 
@@ -81,12 +97,16 @@ export default function Minter({
           }
         );
         const retrievedHash = taskResponse?.data?.content?.hash;
-
+        const arweaveHash = taskResponse?.data?.content?.domains?.[0];
         if (retrievedHash) {
           clearInterval(poll);
           setDeploymentLoading(false);
           const htmlPath = await getHtmlPath(retrievedHash);
-          setDomain(`${process.env.NEXT_PUBLIC_TOKEN_ID}/${htmlPath}`);
+          setDomain({
+            url: `${process.env.NEXT_PUBLIC_4EVERLAND_DOMAIN_BASE_URL}/${htmlPath}`,
+            arweaveUrl: arweaveHash,
+          });
+          await saveDomainData(taskId);
         } else if (attempts >= maxAttempts) {
           console.error('Domain not found after maximum attempts');
           clearInterval(poll);

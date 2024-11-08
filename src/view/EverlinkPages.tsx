@@ -3,12 +3,15 @@ import React, { useState } from 'react';
 import { Box, Grid2, Typography } from '@mui/material';
 import LinearStepper from '@/components/LinearStepper';
 import Form from './Form';
-import { UrlButton } from '@/types';
+import { Domain, UrlButton } from '@/types';
 import SelectTheme from './SelectTheme';
 import Dark from './previews/Dark';
 import Light from './previews/Light';
 import ThankYou from './ThankYou';
 import Minter from './Minter';
+import Image from 'next/image';
+import LoadingTextSlider from './LoadingTextSlider';
+import LinearProgressBar from '@/components/LinearProgressBar';
 
 const styles = {
   mainBox: {
@@ -27,6 +30,21 @@ const styles = {
     mx: 'auto',
     display: 'flex',
   },
+  loadingContainerBox: {
+    height: 'calc(100vh - 72px)',
+    display: 'flex',
+    flexDirection: 'column',
+    width: { md: '100%', xs: '90%' },
+    mx: 'auto',
+    pb: '72px',
+  },
+  loadingContentBox: {
+    width: { lg: '30%', md: '40%', sm: '50%', xs: '75%' },
+    gap: 2,
+    display: 'flex',
+    flexDirection: 'column',
+    m: 'auto',
+  },
 };
 
 export default function EverlinkPages() {
@@ -35,12 +53,14 @@ export default function EverlinkPages() {
   const [bio, setBio] = useState('');
   const [analyticsTag, setAnalyticsTag] = useState('');
   const [selectedTheme, setSelectedTheme] = useState('');
-  const [domain, setDomain] = useState<string | null>('');
+  const [domain, setDomain] = useState<Domain>({
+    url: '',
+    arweaveUrl: '',
+  });
   const [deploymentLoading, setDeploymentLoading] = useState<boolean>(false);
   const [urlButtons, setUrlButtons] = useState<UrlButton[]>([
     { id: '1', title: '', url: '' },
   ]);
-
   const renderThemePreview = () => {
     switch (selectedTheme) {
       case 'Dark Theme':
@@ -85,6 +105,7 @@ export default function EverlinkPages() {
               setActiveStep={setActiveStep}
               urlButtons={urlButtons}
               selectedTheme={selectedTheme}
+              domain={domain}
               setDomain={setDomain}
               setDeploymentLoading={setDeploymentLoading}
             />
@@ -138,7 +159,23 @@ export default function EverlinkPages() {
         </Grid2>
       </Grid2>
       <Box display={activeStep === 2 ? 'flex' : 'none'}>
-        <ThankYou domain={domain} deploymentLoading={deploymentLoading} />
+        {deploymentLoading ? (
+          <Box sx={styles.loadingContainerBox}>
+            <Box sx={styles.loadingContentBox}>
+              <Image
+                src={'/loadingIcon.svg'}
+                alt='Loader'
+                width={80}
+                height={80}
+                style={{ margin: 'auto' }}
+              />
+              <LinearProgressBar />
+              <LoadingTextSlider />
+            </Box>
+          </Box>
+        ) : (
+          <ThankYou domain={domain} deploymentLoading={deploymentLoading} />
+        )}
       </Box>
     </Box>
   );

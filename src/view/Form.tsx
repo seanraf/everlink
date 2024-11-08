@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import URLButtons from './URLButtons';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -85,10 +85,26 @@ const From = ({
   const [showOptionalField, setShowOptionalField] = useState(false);
   const [usernameError, setUsernameError] = useState('');
   const [bioError, setBioError] = useState('');
+  const [isInitialUsername, setIsInitialUsername] = useState(false);
+  const [isInitialBio, setIsInitialBio] = useState(false);
 
   const [urlButtonErrors, setUrlButtonErrors] = useState<
     { id: string; title: string; url: string }[]
   >([{ id: '', title: '', url: '' }]);
+
+  useEffect(() => {
+    if (user?.farcaster?.username && !isInitialUsername) {
+      setUserName(user.farcaster.username);
+      setIsInitialUsername(true);
+    }
+  }, [user, isInitialUsername, setUserName]);
+
+  useEffect(() => {
+    if (user?.farcaster?.bio && !isInitialBio) {
+      setBio(user?.farcaster?.bio);
+      setIsInitialBio(true);
+    }
+  }, [user, isInitialBio, setBio]);
 
   const toggleOptionalField = () => {
     setShowOptionalField((prev) => !prev);
@@ -175,7 +191,7 @@ const From = ({
             fullWidth
             id='outlined-basic'
             variant='outlined'
-            value={user?.farcaster?.username || userName}
+            value={userName}
             onChange={(e) => setUserName(e.target.value)}
             error={!!usernameError}
             helperText={usernameError}
@@ -204,7 +220,7 @@ const From = ({
             rows={2}
             id='outlined-basic'
             variant='outlined'
-            value={user?.farcaster?.bio || bio}
+            value={bio}
             onChange={(e) => setBio(e.target.value)}
             error={!!bioError}
             helperText={bioError}

@@ -1,9 +1,9 @@
-import LandingPage from '@/view/LandingPage';
+import Pages from '@/view/Pages';
+import { cookies } from 'next/headers';
 
 export default function Home() {
-  return (
-    <>
-      <LandingPage />
-    </>
-  );
+  const token = cookies().get('crossmint-jwt');
+  const isAuthenticated = !!token;
+
+  return <Pages isAuthenticated={isAuthenticated} />;
 }

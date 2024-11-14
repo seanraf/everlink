@@ -128,8 +128,6 @@ export default function LandingPage() {
               style={{ width: '100%', height: 'auto' }}
             />
           </Box>
-          {loading && <Typography>Loading...</Typography>}
-          {error && <Typography color='error'>{error}</Typography>}
         </Container>
       </Box>
     </>

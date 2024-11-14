@@ -52,7 +52,7 @@ export default function EverlinkPages() {
   const [userName, setUserName] = useState('');
   const [bio, setBio] = useState('');
   const [analyticsTag, setAnalyticsTag] = useState('');
-  const [selectedTheme, setSelectedTheme] = useState('');
+  const [selectedTheme, setSelectedTheme] = useState('Dark Theme');
   const [domain, setDomain] = useState<Domain>({
     url: '',
     arweaveUrl: '',

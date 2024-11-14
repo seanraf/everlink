@@ -7,6 +7,7 @@ import { Box, Button } from '@mui/material';
 import ReactDOMServer from 'react-dom/server';
 import { useAuth } from '@crossmint/client-sdk-react-ui';
 import { DeploymentRecord, DomainContent, MinterProps } from '@/types';
+import { CrossmintPayButton } from '@crossmint/client-sdk-react-ui';
 
 const styles = {
   title: {
@@ -45,6 +46,11 @@ export default function Minter({
   setDeploymentLoading,
 }: MinterProps) {
   const { user } = useAuth();
+
+  const projectId = process.env.NEXT_PUBLIC_CROSSMINT_PROJECT_ID as string;
+  const collectionId = process.env
+    .NEXT_PUBLIC_CROSSMINT_COLLECTION_ID as string;
+  const environment = process.env.NEXT_PUBLIC_CROSSMINT_ENVIRONMENT as string;
 
   const getHtmlPath = async (retrievedHash: string) => {
     try {
@@ -280,6 +286,17 @@ export default function Minter({
       >
         Mint
       </Button>
+      <CrossmintPayButton
+        projectId={projectId}
+        collectionId={collectionId}
+        environment={environment}
+        mintConfig={{
+          type: 'erc-721',
+          price: '5',
+          quantity: '1',
+        }}
+        checkoutProps={{ paymentMethods: ['fiat', 'ETH', 'SOL'] }}
+      />
     </Box>
   );
 }

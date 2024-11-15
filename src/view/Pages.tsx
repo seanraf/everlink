@@ -7,7 +7,7 @@ import { useAuth } from '@crossmint/client-sdk-react-ui';
 export default function Pages({
   isAuthenticated,
 }: {
-  isAuthenticated: Boolean;
+  isAuthenticated: boolean;
 }) {
   const { user } = useAuth();
   return (

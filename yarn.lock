@@ -142,13 +142,13 @@
     eventemitter3 "^5.0.1"
     preact "^10.16.0"
 
-"@crossmint/client-sdk-auth@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@crossmint/client-sdk-auth/-/client-sdk-auth-1.0.0.tgz#bc99b9483accad304b8edfe822a19a1bb1de37a2"
-  integrity sha512-Qzh5x11zZDS+28lXcdhZBSanAaDyvGjy/B+dTKJ2K4tBbTTdv+OIL6AEw4kwZiMmMeECcfSOcihAg35HaQXyJw==
+"@crossmint/client-sdk-auth@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@crossmint/client-sdk-auth/-/client-sdk-auth-1.1.0.tgz#95dc488f7d1e3c1f8c14c9ba4b80d4dd47fc6b77"
+  integrity sha512-dl+JWOvjNNZ27jLI7u5VrFYQdV5o/XbMbxBmIRmtTylZX83iAsKsO+OMFKfNo2Xpo86MOuHrj9Btxnu9nXZ/6w==
   dependencies:
     "@crossmint/client-sdk-base" "1.3.2"
-    "@crossmint/common-sdk-auth" "1.0.0"
+    "@crossmint/common-sdk-auth" "1.0.1"
     "@crossmint/common-sdk-base" "0.3.0"
     "@farcaster/auth-kit" "0.6.0"
     jwt-decode "4.0.0"
@@ -165,16 +165,16 @@
     uuid "9.0.1"
     zod "3.22.4"
 
-"@crossmint/client-sdk-react-ui@^1.10.2":
-  version "1.10.2"
-  resolved "https://registry.yarnpkg.com/@crossmint/client-sdk-react-ui/-/client-sdk-react-ui-1.10.2.tgz#eaaad4c4c840ae42860ceb4fa32b2173955af804"
-  integrity sha512-96ERAxBkSjjo3qknvFKRpMVDhbwVNu30tGkFqC5kYY6evzWXMHYIQaIIMAmHUuL7cooMTP6rIo3L5E3orI+Vog==
+"@crossmint/client-sdk-react-ui@^1.9.1":
+  version "1.10.4"
+  resolved "https://registry.yarnpkg.com/@crossmint/client-sdk-react-ui/-/client-sdk-react-ui-1.10.4.tgz#a475738830e5e16ebbe3ed5eb91cc9b35fb986e8"
+  integrity sha512-44GqfdZohykDG9SFwipy62NJ++fKfq6DVVIkSD0SBDKXpExvk7NWzj82XMlGJ8xRyGq4tMu9veWcEocGiTkGpA==
   dependencies:
-    "@crossmint/client-sdk-auth" "1.0.0"
+    "@crossmint/client-sdk-auth" "1.1.0"
     "@crossmint/client-sdk-base" "1.3.2"
     "@crossmint/client-sdk-smart-wallet" "0.1.22"
     "@crossmint/client-sdk-window" "0.1.0"
-    "@crossmint/common-sdk-auth" "1.0.0"
+    "@crossmint/common-sdk-auth" "1.0.1"
     "@crossmint/common-sdk-base" "0.3.0"
     "@dynamic-labs/ethereum" "2.6.3"
     "@dynamic-labs/sdk-react-core" "2.6.3"
@@ -224,10 +224,10 @@
     nanoid "5.0.4"
     zod "3.22.4"
 
-"@crossmint/common-sdk-auth@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@crossmint/common-sdk-auth/-/common-sdk-auth-1.0.0.tgz#30fb2dc25a62ad9242b650b582f98c9f8fc315e6"
-  integrity sha512-nxXX++Cd8lx9HRK22IpXuS+r4wonIRJyG8h9AyRjePxUmkey6ruzlJlUtnVVHB7yBMFmf8dGKxRWcmZUxitkiw==
+"@crossmint/common-sdk-auth@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@crossmint/common-sdk-auth/-/common-sdk-auth-1.0.1.tgz#2d99c7adbeea377186ebceabf09b8abe005988eb"
+  integrity sha512-+FiL04ONFStCRE0fUIAWCGDERdCQQA8cc/WuttnVc6Ci4q1QolFzEH0Lseif4n10rISTYnoTD07p6GGQeBySHw==
   dependencies:
     "@crossmint/client-sdk-base" "1.3.2"
     "@crossmint/common-sdk-base" "0.3.0"
@@ -7255,16 +7255,7 @@ string-argv@~0.3.2:
   resolved "https://registry.npmjs.org/string-argv/-/string-argv-0.3.2.tgz"
   integrity sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==
 
-"string-width-cjs@npm:string-width@^4.2.0":
-  version "4.2.3"
-  resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
-
-string-width@^4.1.0, string-width@^4.2.0:
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0:
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -7367,14 +7358,7 @@ string_decoder@~1.1.1:
   dependencies:
     safe-buffer "~5.1.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
-
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==

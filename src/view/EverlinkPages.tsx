@@ -56,6 +56,7 @@ export default function EverlinkPages() {
   const [domain, setDomain] = useState<Domain>({
     url: '',
     arweaveUrl: '',
+    customizeUrl: { shortURL: '' },
   });
   const [deploymentLoading, setDeploymentLoading] = useState<boolean>(false);
   const [urlButtons, setUrlButtons] = useState<UrlButton[]>([

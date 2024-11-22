@@ -41,7 +41,6 @@ export default function Minter({
   userName,
   bio,
   urlButtons,
-  domain,
   setDomain,
   setDeploymentLoading,
 }: MinterProps) {
@@ -51,10 +50,20 @@ export default function Minter({
   const collectionId = process.env
     .NEXT_PUBLIC_CROSSMINT_COLLECTION_ID as string;
   const environment = process.env.NEXT_PUBLIC_CROSSMINT_ENVIRONMENT as string;
+  const everlandDomain = process.env
+    .NEXT_PUBLIC_4EVERLAND_DOMAIN_BASE_URL as string;
+  const domain = process.env.NEXT_PUBLIC_DOMAIN as string;
+  const shortIoUrl = process.env.NEXT_PUBLIC_SHORT_IO_BASE_URL as string;
+  const apiKey = process.env.NEXT_PUBLIC_SHORT_IO_API_KEY as string;
+  const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE_URL as string;
+  const everlandHostingBase = process.env
+    .NEXT_PUBLIC_4EVERLAND_HOSTING_BASE_URL as string;
+  const everlandTokenId = process.env.NEXT_PUBLIC_TOKEN_ID as string;
+  const everlandProjectId = process.env.NEXT_PUBLIC_PROJECT_ID as string;
 
   const getHtmlPath = async (retrievedHash: string) => {
     try {
-      const url = `${process.env.NEXT_PUBLIC_4EVERLAND_DOMAIN_BASE_URL}/${retrievedHash}`;
+      const url = `${everlandDomain}/${retrievedHash}`;
       const urlResponse = await axios.get(url);
       const indexHtmlId = urlResponse.data.paths?.['index.html']?.id;
 
@@ -69,6 +78,29 @@ export default function Minter({
     }
   };
 
+  const generateCustomURL = async (htmlPath: string) => {
+    const originalURL = `${everlandDomain}/${htmlPath}`;
+    try {
+      const response = await axios.post(
+        shortIoUrl,
+        {
+          originalURL,
+          domain,
+        },
+        {
+          headers: {
+            authorization: apiKey,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error shortening URL:', error);
+      throw error;
+    }
+  };
+
   const saveDomainData = async (
     taskId: string | undefined,
     arweaveHash: string,
@@ -76,9 +108,9 @@ export default function Minter({
   ) => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/deploymentHistory/${taskId}`,
+        `${backendBase}/api/deploymentHistory/${taskId}`,
         {
-          url: `${process.env.NEXT_PUBLIC_4EVERLAND_DOMAIN_BASE_URL}/${htmlPath}`,
+          url: `${everlandDomain}/${htmlPath}`,
           arweaveUrl: `https://${arweaveHash}`,
         }
       );
@@ -99,10 +131,10 @@ export default function Minter({
 
       try {
         const taskResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_4EVERLAND_HOSTING_BASE_URL}/tasks/${taskId}`,
+          `${everlandHostingBase}/tasks/${taskId}`,
           {
             headers: {
-              token: process.env.NEXT_PUBLIC_TOKEN_ID as string,
+              token: everlandTokenId,
             },
           }
         );
@@ -111,9 +143,11 @@ export default function Minter({
         if (retrievedHash) {
           clearInterval(poll);
           const htmlPath = await getHtmlPath(retrievedHash);
+          const customizeUrl = await generateCustomURL(htmlPath);
           setDomain({
-            url: `${process.env.NEXT_PUBLIC_4EVERLAND_DOMAIN_BASE_URL}/${htmlPath}`,
+            url: `${everlandDomain}/${htmlPath}`,
             arweaveUrl: arweaveHash,
+            customizeUrl: customizeUrl,
           });
           await saveDomainData(taskId, arweaveHash, htmlPath);
           setDeploymentLoading(false);
@@ -135,13 +169,10 @@ export default function Minter({
     farcasterId: string | undefined
   ) => {
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/deploymentHistory/create`,
-        {
-          content,
-          farcasterId,
-        }
-      );
+      await axios.post(`${backendBase}/api/deploymentHistory/create`, {
+        content,
+        farcasterId,
+      });
       console.log('Deployment data saved successfully');
     } catch (error) {
       console.error('Error saving deployment data:', error);
@@ -153,7 +184,7 @@ export default function Minter({
   ): Promise<DeploymentRecord | null> => {
     try {
       const response = await axios.get<{ records: DeploymentRecord[] }>(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/deploymentHistory/user/${farcasterId}`
+        `${backendBase}/api/deploymentHistory/user/${farcasterId}`
       );
 
       const deploymentRecords = response.data.records;
@@ -177,18 +208,18 @@ export default function Minter({
   const uploadHTMLFile = async (file: any) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('projectId', process.env.NEXT_PUBLIC_PROJECT_ID as string);
+    formData.append('projectId', everlandProjectId);
 
     setDeploymentLoading(true);
 
     try {
       const uploadResponse = await axios.post(
-        `${process.env.NEXT_PUBLIC_4EVERLAND_HOSTING_BASE_URL}/deploy`,
+        `${everlandHostingBase}/deploy`,
         formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-            token: process.env.NEXT_PUBLIC_TOKEN_ID as string,
+            token: everlandTokenId,
           },
         }
       );
@@ -286,7 +317,7 @@ export default function Minter({
       >
         Mint
       </Button>
-      <CrossmintPayButton
+      {/* <CrossmintPayButton
         projectId={projectId}
         collectionId={collectionId}
         environment={environment}
@@ -296,7 +327,7 @@ export default function Minter({
           quantity: '1',
         }}
         checkoutProps={{ paymentMethods: ['fiat', 'ETH', 'SOL'] }}
-      />
+      /> */}
     </Box>
   );
 }

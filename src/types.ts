@@ -57,6 +57,7 @@ export type DomainContent = {
 export type Domain = {
   url: string;
   arweaveUrl: string;
+  customizeUrl: { shortURL: string };
 };
 
 export type DeploymentRecord = {

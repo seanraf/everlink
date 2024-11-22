@@ -85,7 +85,7 @@ export default function ThankYou({
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(domain?.url || '');
+    navigator.clipboard.writeText(domain?.customizeUrl?.shortURL || '');
     setTooltipOpen(true);
 
     setTimeout(() => {
@@ -124,7 +124,9 @@ export default function ThankYou({
               </>
             ) : (
               <>
-                <Typography sx={styles.linkText}>{domain?.url}</Typography>
+                <Typography sx={styles.linkText}>
+                  {domain?.customizeUrl?.shortURL}
+                </Typography>
               </>
             )}
           </Box>

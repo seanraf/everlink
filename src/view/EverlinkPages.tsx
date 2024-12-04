@@ -8,10 +8,11 @@ import SelectTheme from './SelectTheme';
 import Dark from './previews/Dark';
 import Light from './previews/Light';
 import ThankYou from './ThankYou';
-import Minter from './Minter';
 import Image from 'next/image';
 import LoadingTextSlider from './LoadingTextSlider';
 import LinearProgressBar from '@/components/LinearProgressBar';
+import Uploader from './Uploader';
+import Minter from './Minter';
 
 const styles = {
   mainBox: {
@@ -100,7 +101,7 @@ export default function EverlinkPages() {
               setSelectedTheme={setSelectedTheme}
               selectedTheme={selectedTheme}
             />
-            <Minter
+            <Uploader
               userName={userName}
               bio={bio}
               setActiveStep={setActiveStep}
@@ -175,8 +176,14 @@ export default function EverlinkPages() {
             </Box>
           </Box>
         ) : (
-          <ThankYou domain={domain} deploymentLoading={deploymentLoading} />
+          <Minter
+            setActiveStep={setActiveStep}
+            renderThemePreview={renderThemePreview}
+          />
         )}
+      </Box>
+      <Box display={activeStep === 3 ? 'flex' : 'none'}>
+        <ThankYou domain={domain} deploymentLoading={deploymentLoading} />
       </Box>
     </Box>
   );

@@ -38,7 +38,7 @@ export type SelectThemeProps = {
   setSelectedTheme: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export type MinterProps = {
+export type UploaderProps = {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
   selectedTheme: string;
   userName: string;
@@ -73,4 +73,9 @@ export type DeploymentRecord = {
     createdAt: string;
     updatedAt: string;
   };
+};
+
+export type MinterProps = {
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  renderThemePreview: () => JSX.Element;
 };

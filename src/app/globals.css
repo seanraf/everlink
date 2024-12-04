@@ -32,3 +32,11 @@
   font-weight: normal;
   font-style: normal;
 }
+
+button.xmint-btn {
+  background-color: #1ab4a3;
+}
+
+.xmint-btn .crossmintImg-0-2-2 {
+  display: none !important;
+}

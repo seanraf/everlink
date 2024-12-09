@@ -133,6 +133,8 @@ export default function Minter({
                     quantity: '1',
                   }}
                   checkoutProps={{ paymentMethods: ['fiat', 'ETH', 'SOL'] }}
+                  successCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success`}
+                  failureCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/failure`}
                 />
               </Box>
             </Box>

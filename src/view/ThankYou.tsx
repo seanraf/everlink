@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { Box, Button, Tooltip, Typography } from '@mui/material';
 import Image from 'next/image';
-import { Domain } from '@/types';
 
 const styles = {
   containerBox: {
     height: 'calc(100vh - 73px)',
-    width: '90%',
     display: 'flex',
     justifyContent: 'center',
     backgroundImage: "url('/LandingBackground.png')",
     backgroundRepeat: 'round',
-    mx: 'auto',
   },
   mainBox: {
     display: 'flex',
+    width: '90%',
+    mx: 'auto',
     flexDirection: 'column',
     my: 'auto',
   },
@@ -76,16 +75,16 @@ const styles = {
   },
 };
 export default function ThankYou({
-  domain,
-  deploymentLoading,
+  customURL,
+  loading,
 }: {
-  domain: Domain;
-  deploymentLoading: boolean;
+  customURL: string;
+  loading: boolean;
 }) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(domain?.customizeUrl?.shortURL || '');
+    navigator.clipboard.writeText(customURL || '');
     setTooltipOpen(true);
 
     setTimeout(() => {
@@ -117,16 +116,13 @@ export default function ThankYou({
             />
           </Box>
           <Box flexGrow={1} overflow={'hidden'} ml={1}>
-            {' '}
-            {deploymentLoading ? (
+            {loading ? (
               <>
                 <Typography sx={styles.linkText}>Loading...</Typography>
               </>
             ) : (
               <>
-                <Typography sx={styles.linkText}>
-                  {domain?.customizeUrl?.shortURL}
-                </Typography>
+                <Typography sx={styles.linkText}>{customURL}</Typography>
               </>
             )}
           </Box>

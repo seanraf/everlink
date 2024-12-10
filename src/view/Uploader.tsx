@@ -109,7 +109,6 @@ export default function Uploader({
           arweaveUrl: `https://${arweaveHash}`,
         }
       );
-      console.log('Domain data saved successfully:', response);
     } catch (error) {
       console.error('Error saving domain data:', error);
     }
@@ -168,7 +167,6 @@ export default function Uploader({
         content,
         farcasterId,
       });
-      console.log('Deployment data saved successfully');
     } catch (error) {
       console.error('Error saving deployment data:', error);
     }

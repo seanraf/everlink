@@ -7,7 +7,6 @@ import { Domain, UrlButton } from '@/types';
 import SelectTheme from './SelectTheme';
 import Dark from './previews/Dark';
 import Light from './previews/Light';
-import ThankYou from './ThankYou';
 import Image from 'next/image';
 import LoadingTextSlider from './LoadingTextSlider';
 import LinearProgressBar from '@/components/LinearProgressBar';
@@ -181,9 +180,6 @@ export default function EverlinkPages() {
             renderThemePreview={renderThemePreview}
           />
         )}
-      </Box>
-      <Box display={activeStep === 3 ? 'flex' : 'none'}>
-        <ThankYou domain={domain} deploymentLoading={deploymentLoading} />
       </Box>
     </Box>
   );

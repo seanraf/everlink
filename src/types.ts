@@ -66,6 +66,8 @@ export type DeploymentRecord = {
   taskId: string;
   createdAt: string;
   updatedAt: string;
+  arweaveUrl: string;
+  url: string;
   createdBy: {
     _id: string;
     farcasterId: string;

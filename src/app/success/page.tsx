@@ -71,6 +71,6 @@ export default function Page() {
     if (farcasterId) {
       fetchDeploymentData();
     }
-  }, []);
+  }, [farcasterId]);
   return <ThankYou customURL={customURL} loading={loading} />;
 }

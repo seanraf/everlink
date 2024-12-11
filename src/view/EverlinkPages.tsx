@@ -164,7 +164,7 @@ export default function EverlinkPages() {
           <Box sx={styles.loadingContainerBox}>
             <Box sx={styles.loadingContentBox}>
               <Image
-                src={'/loadingIcon.svg'}
+                src={'/LoadingIcon.svg'}
                 alt='Loader'
                 width={80}
                 height={80}

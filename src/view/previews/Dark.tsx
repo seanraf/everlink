@@ -11,7 +11,6 @@ export default function Dark({
   urlButtons: UrlButton[];
 }) {
   const containerBoxStyles: React.CSSProperties = {
-    width: '90%',
     justifyContent: 'center',
     border: '1px solid #252525',
     marginBottom: 'auto',

@@ -255,12 +255,20 @@ export default function Uploader({
     const fullHtml = `
         <!DOCTYPE html>
         <html>
-          <head>      
+          <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">         
             <style>
               body { width: 90%; margin-left:auto; margin-right:auto }
-                @media (min-width: 768px) {
-                  body { width: 50%; }
+              @media (min-width: 768px) and (max-width: 1024px) {
+                body {
+                  width: 75%;
                 }
+              }
+              @media (min-width: 1024px) {
+                body {
+                  width: 50%;
+                }
+              }
             </style>
           </head>
           <body>

@@ -6,7 +6,8 @@ import { useAuth } from '@crossmint/client-sdk-react-ui';
 
 export default function Page() {
   const { user } = useAuth();
-  const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE_URL as string;
+  const backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_BASE_URL as string;
+  const frontendBaseUrl = process.env.NEXT_PUBLIC_FRONTEND_BASE_URL as string;
   const shortIoUrl = process.env.NEXT_PUBLIC_SHORT_IO_BASE_URL as string;
   const domain = process.env.NEXT_PUBLIC_DOMAIN as string;
   const apiKey = process.env.NEXT_PUBLIC_SHORT_IO_API_KEY as string;
@@ -36,10 +37,29 @@ export default function Page() {
     }
   };
 
+  const saveDomainData = async (
+    taskId: string,
+    latestLink: string,
+    shortIoId: string
+  ) => {
+    try {
+      const response = await axios.put(
+        `${backendBaseUrl}/api/deploymentHistory/${taskId}`,
+        {
+          customUrl: latestLink,
+          shortUrlId: shortIoId,
+        }
+      );
+      setLoading(false);
+    } catch (error) {
+      console.error('Error saving domain data:', error);
+    }
+  };
+
   const fetchDeploymentData = async () => {
     try {
       const response = await axios.get(
-        `${backendBase}/api/deploymentHistory/user/${farcasterId}`
+        `${backendBaseUrl}/api/deploymentHistory/user/${farcasterId}`
       );
       const deploymentRecords = response.data.records;
 
@@ -49,9 +69,15 @@ export default function Page() {
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         )[0];
 
-        if (latest?.url) {
+        const latestLink = `${frontendBaseUrl}/${latest?.taskId}`;
+        if (latest?.taskId) {
           try {
-            const customUrlData = await generateCustomURL(latest?.url);
+            const customUrlData = await generateCustomURL(latestLink);
+            saveDomainData(
+              latest?.taskId,
+              customUrlData?.shortURL,
+              customUrlData?.idString
+            );
             setCustomURL(customUrlData?.shortURL);
             setLoading(false);
           } catch (error) {
@@ -67,6 +93,7 @@ export default function Page() {
       setCustomURL('');
     }
   };
+
   useEffect(() => {
     if (farcasterId) {
       fetchDeploymentData();

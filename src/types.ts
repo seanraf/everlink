@@ -44,37 +44,11 @@ export type UploaderProps = {
   userName: string;
   bio: string;
   urlButtons: UrlButton[];
-  domain: Domain;
-  setDomain: React.Dispatch<React.SetStateAction<Domain>>;
-  setDeploymentLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type DomainContent = {
   domainList: string[];
   taskId: string;
-};
-
-export type Domain = {
-  url: string;
-  arweaveUrl: string;
-  customizeUrl: { shortURL: string };
-};
-
-export type DeploymentRecord = {
-  _id: string;
-  domainList: string[];
-  taskId: string;
-  createdAt: string;
-  updatedAt: string;
-  arweaveUrl: string;
-  url: string;
-  createdBy: {
-    _id: string;
-    farcasterId: string;
-    username: string;
-    createdAt: string;
-    updatedAt: string;
-  };
 };
 
 export type MinterProps = {

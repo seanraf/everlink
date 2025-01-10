@@ -23,6 +23,7 @@ export default function Dark({
     display: 'flex',
     flexDirection: 'column',
     gap: window.innerWidth >= 768 ? '17px' : '12px',
+    width: '100%',
   };
 
   const userNameStyles: React.CSSProperties = {

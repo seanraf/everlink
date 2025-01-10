@@ -3,13 +3,10 @@ import React, { useState } from 'react';
 import { Box, Grid2, Typography } from '@mui/material';
 import LinearStepper from '@/components/LinearStepper';
 import Form from './Form';
-import { Domain, UrlButton } from '@/types';
+import { UrlButton } from '@/types';
 import SelectTheme from './SelectTheme';
 import Dark from './previews/Dark';
 import Light from './previews/Light';
-import Image from 'next/image';
-import LoadingTextSlider from './LoadingTextSlider';
-import LinearProgressBar from '@/components/LinearProgressBar';
 import Uploader from './Uploader';
 import Minter from './Minter';
 
@@ -53,12 +50,6 @@ export default function EverlinkPages() {
   const [bio, setBio] = useState('');
   const [analyticsTag, setAnalyticsTag] = useState('');
   const [selectedTheme, setSelectedTheme] = useState('Dark Theme');
-  const [domain, setDomain] = useState<Domain>({
-    url: '',
-    arweaveUrl: '',
-    customizeUrl: { shortURL: '' },
-  });
-  const [deploymentLoading, setDeploymentLoading] = useState<boolean>(false);
   const [urlButtons, setUrlButtons] = useState<UrlButton[]>([
     { id: '1', title: '', url: '' },
   ]);
@@ -106,9 +97,6 @@ export default function EverlinkPages() {
               setActiveStep={setActiveStep}
               urlButtons={urlButtons}
               selectedTheme={selectedTheme}
-              domain={domain}
-              setDomain={setDomain}
-              setDeploymentLoading={setDeploymentLoading}
             />
           </>
         );
@@ -151,7 +139,7 @@ export default function EverlinkPages() {
           sx={{
             display: activeStep === 0 ? 'none' : 'flex',
             px: { md: 3, xs: 'unset' },
-            py: '74px',
+            py: { md: '74px', xs: '10px' },
 
             justifyContent: 'center',
           }}
@@ -160,26 +148,10 @@ export default function EverlinkPages() {
         </Grid2>
       </Grid2>
       <Box display={activeStep === 2 ? 'flex' : 'none'}>
-        {deploymentLoading ? (
-          <Box sx={styles.loadingContainerBox}>
-            <Box sx={styles.loadingContentBox}>
-              <Image
-                src={'/LoadingIcon.svg'}
-                alt='Loader'
-                width={80}
-                height={80}
-                style={{ margin: 'auto' }}
-              />
-              <LinearProgressBar />
-              <LoadingTextSlider />
-            </Box>
-          </Box>
-        ) : (
-          <Minter
-            setActiveStep={setActiveStep}
-            renderThemePreview={renderThemePreview}
-          />
-        )}
+        <Minter
+          setActiveStep={setActiveStep}
+          renderThemePreview={renderThemePreview}
+        />
       </Box>
     </Box>
   );

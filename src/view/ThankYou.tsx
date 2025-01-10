@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Box, Button, Tooltip, Typography } from '@mui/material';
 import Image from 'next/image';
+import Player from 'lottie-react';
+import { Box, Button, Tooltip, Typography } from '@mui/material';
+import ThankuAnimationData from '../../public/ThankuAnimationData.json';
 
 const styles = {
   containerBox: {
-    height: 'calc(100vh - 73px)',
+    height: 'calc(100vh - 196px)',
     display: 'flex',
     justifyContent: 'center',
     backgroundImage: "url('/LandingBackground.png')",
@@ -94,7 +96,29 @@ export default function ThankYou({
   return (
     <Box sx={styles.containerBox}>
       <Box sx={styles.mainBox} width={'100%'}>
-        <Box sx={styles.textBox}>
+        <Box sx={styles.textBox} position={'relative'} pt={'133px'}>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: -1,
+              mt: 10,
+            }}
+          >
+            <Player
+              autoplay
+              loop
+              animationData={ThankuAnimationData}
+              style={{
+                height: '100%',
+                width: '100%',
+                objectFit: 'cover',
+              }}
+            />
+          </Box>
           <Typography sx={styles.heading}>
             <Box component={'span'} sx={{ fontFamily: 'Nib Pro' }}>
               ThankYou

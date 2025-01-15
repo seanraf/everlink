@@ -47,6 +47,11 @@ export default function Uploader({
     .NEXT_PUBLIC_4EVERLAND_HOSTING_BASE_URL as string;
   const everlandTokenId = process.env.NEXT_PUBLIC_TOKEN_ID as string;
   const everlandProjectId = process.env.NEXT_PUBLIC_PROJECT_ID as string;
+  const frontendBaseUrl = process.env.NEXT_PUBLIC_FRONTEND_BASE_URL as string;
+  const backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_BASE_URL as string;
+  const shortIoUrl = process.env.NEXT_PUBLIC_SHORT_IO_BASE_URL as string;
+  const domain = process.env.NEXT_PUBLIC_DOMAIN as string;
+  const apiKey = process.env.NEXT_PUBLIC_SHORT_IO_API_KEY as string;
 
   const saveDeploymentData = async (
     content: DomainContent,
@@ -59,6 +64,46 @@ export default function Uploader({
       });
     } catch (error) {
       console.error('Error saving deployment data:', error);
+    }
+  };
+
+  const generateCustomURL = async (originalURL: string) => {
+    try {
+      const response = await axios.post(
+        shortIoUrl,
+        {
+          originalURL: `${frontendBaseUrl}/${originalURL}`,
+          domain,
+        },
+        {
+          headers: {
+            authorization: apiKey,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error shortening URL:', error);
+      throw error;
+    }
+  };
+
+  const saveDomainData = async (
+    taskId: string,
+    latestLink: string,
+    shortIoId: string
+  ) => {
+    try {
+      const response = await axios.put(
+        `${backendBaseUrl}/api/deploymentHistory/${taskId}`,
+        {
+          customUrl: latestLink,
+          shortUrlId: shortIoId,
+        }
+      );
+    } catch (error) {
+      console.error('Error saving domain data:', error);
     }
   };
 
@@ -80,9 +125,15 @@ export default function Uploader({
       );
 
       const content = uploadResponse?.data?.content;
+      const taskId = content?.taskId;
       const farcasterId = user?.farcaster?.fid;
-
       await saveDeploymentData(content, farcasterId);
+      const customUrlData = await generateCustomURL(taskId);
+      await saveDomainData(
+        taskId,
+        customUrlData?.shortURL,
+        customUrlData?.idString
+      );
     } catch (error) {
       console.error('Error uploading file:', error);
     }

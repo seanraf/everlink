@@ -168,13 +168,16 @@ export default function Uploader({
               body { width: 90%; margin-left:auto; margin-right:auto }
               @media (min-width: 768px) and (max-width: 1024px) {
                 body {
-                  width: 75%;
+                  width: 60%;
                 }
               }
               @media (min-width: 1024px) {
                 body {
-                  width: 50%;
+                  width: 30%;
                 }
+              }
+              div {
+                box-sizing: border-box;
               }
             </style>
           </head>

@@ -54,7 +54,13 @@ export default function Dark({
   return (
     <div style={containerBoxStyles}>
       <h1 style={userNameStyles}>{userName}</h1>
-      <p style={bioStyles}>{bio}</p>
+      <div>
+        {bio?.split('\n').map((line, index) => (
+          <p style={bioStyles} key={index}>
+            {line || '\u00A0'}{' '}
+          </p>
+        ))}
+      </div>
       {urlButtons?.map((item) => (
         <a
           key={item?.id}

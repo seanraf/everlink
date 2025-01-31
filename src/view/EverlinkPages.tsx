@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Grid2, Typography } from '@mui/material';
 import LinearStepper from '@/components/LinearStepper';
 import Form from './Form';
@@ -9,6 +9,7 @@ import Dark from './previews/Dark';
 import Light from './previews/Light';
 import Uploader from './Uploader';
 import Minter from './Minter';
+import { useAuth } from '@crossmint/client-sdk-react-ui';
 
 const styles = {
   mainBox: {
@@ -45,6 +46,7 @@ const styles = {
 };
 
 export default function EverlinkPages() {
+  const { user } = useAuth();
   const [activeStep, setActiveStep] = useState(0);
   const [userName, setUserName] = useState('');
   const [bio, setBio] = useState('');
@@ -53,6 +55,47 @@ export default function EverlinkPages() {
   const [urlButtons, setUrlButtons] = useState<UrlButton[]>([
     { id: '1', title: '', url: '' },
   ]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isUserRegistered, setIsUserRegistered] = useState(false);
+
+  useEffect(() => {
+    const registerUser = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/users/register`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fid: user?.farcaster?.fid,
+              username: user?.farcaster?.username,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to register the user');
+        }
+        const _result = await response.json();
+        setIsUserRegistered(true);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message); // `Error` type includes the `message` property
+        } else {
+          setError('An unknown error occurred');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user && !isUserRegistered) {
+      registerUser();
+    }
+  }, [user, isUserRegistered]);
+
   const renderThemePreview = () => {
     switch (selectedTheme) {
       case 'Dark Theme':

@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Box, Grid2, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { MinterProps } from '@/types';
-import { CrossmintPayButton } from '@crossmint/client-sdk-react-ui';
+import { CrossmintPayButton_DEPRECATED } from '@crossmint/client-sdk-react-ui';
 
 const styles = {
   containerBox: {
@@ -118,11 +118,11 @@ export default function Minter({
                   xs: '6px 2px',
                 }}
               >
-                <CrossmintPayButton
+                <CrossmintPayButton_DEPRECATED
                   projectId={projectId}
                   collectionId={collectionId}
                   environment={environment}
-                  getButtonText={(connecting) =>
+                  getButtonText={(connecting: any) =>
                     connecting ? `Connecting` : `Mint`
                   }
                   className='xmint-btn'

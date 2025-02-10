@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Player from 'lottie-react';
 import { Box, Button, Tooltip, Typography } from '@mui/material';
 import ThankuAnimationData from '../../public/ThankuAnimationData.json';
+import localFont from 'next/font/local';
 
 const styles = {
   containerBox: {
@@ -76,6 +77,18 @@ const styles = {
     },
   },
 };
+
+const nibPro = localFont({
+  src: [
+    {
+      path: '../../public/fonts/NibPro/NibPro-Italic.woff2',
+      weight: '400',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-nib-pro',
+});
+
 export default function ThankYou({
   customURL,
   loading,
@@ -120,7 +133,7 @@ export default function ThankYou({
             />
           </Box>
           <Typography sx={styles.heading}>
-            <Box component={'span'} sx={{ fontFamily: 'Nib Pro' }}>
+            <Box component={'span'} className={nibPro.className}>
               ThankYou
             </Box>{' '}
             For Your Purchase

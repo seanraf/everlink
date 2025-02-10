@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Box, Grid2, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { MinterProps } from '@/types';
 import { CrossmintPayButton } from '@crossmint/client-sdk-react-ui';
+import localFont from 'next/font/local';
 
 const styles = {
   containerBox: {
@@ -66,6 +67,18 @@ const styles = {
     display: 'flex',
   },
 };
+
+const nibPro = localFont({
+  src: [
+    {
+      path: '../../public/fonts/NibPro/NibPro-Italic.woff2',
+      weight: '400',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-nib-pro',
+});
+
 export default function Minter({
   setActiveStep,
   renderThemePreview,
@@ -85,7 +98,7 @@ export default function Minter({
             <Box sx={styles.textBox}>
               <Typography sx={styles.heading}>
                 Your Link is{' '}
-                <Box component={'span'} sx={{ fontFamily: 'Nib Pro' }}>
+                <Box component={'span'} className={nibPro.className}>
                   Ready
                 </Box>{' '}
                 ! 🎉

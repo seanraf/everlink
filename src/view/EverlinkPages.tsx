@@ -53,7 +53,7 @@ export default function EverlinkPages() {
   const [analyticsTag, setAnalyticsTag] = useState('');
   const [selectedTheme, setSelectedTheme] = useState('Dark Theme');
   const [urlButtons, setUrlButtons] = useState<UrlButton[]>([
-    { id: '1', title: '', url: '' },
+    { id: '1', title: '', url: 'https://' },
   ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

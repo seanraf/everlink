@@ -109,7 +109,7 @@ export default function Page() {
                 <Box sx={styles.textBox}>
                   <Typography fontSize={{ md: 16, xs: 14 }}>
                     We’re writing your Everlink to the web in permanent link.
-                    This may take up to 30 minutes, but what’s 30 minutes for
+                    This may take up to 10 minutes, but what’s 10 minutes for
                     something that lasts forever?
                   </Typography>
                   <Image

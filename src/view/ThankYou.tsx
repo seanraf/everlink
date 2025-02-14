@@ -4,6 +4,7 @@ import Player from 'lottie-react';
 import { Box, Button, Tooltip, Typography } from '@mui/material';
 import ThankuAnimationData from '../../public/ThankuAnimationData.json';
 import localFont from 'next/font/local';
+import ShareToFarcaster from '@/components/ShareToFarcaster';
 
 const styles = {
   containerBox: {
@@ -24,16 +25,6 @@ const styles = {
     fontSize: { md: '64px', xs: '32px' },
     fontWeight: 600,
     letterSpacing: { md: -3, xs: -1 },
-  },
-  shareToFarcaster: {
-    width: 'fit-content',
-    color: 'primary.main',
-    gap: '8px',
-    mx: 'auto',
-    border: '2px solid #855DCD',
-    borderRadius: '8px',
-    padding: '8px 16px',
-    fontWeight: 'bold',
   },
   textBox: {
     textAlign: 'center',
@@ -177,15 +168,7 @@ export default function ThankYou({
             </Button>
           </Tooltip>
         </Box>
-        <Button variant='outlined' sx={styles.shareToFarcaster}>
-          <Image
-            src={'/FarcasterPurpleLogo.svg'}
-            alt='Icon'
-            width={25.86}
-            height={24}
-          />
-          Share To Farcaster Frame
-        </Button>
+        <ShareToFarcaster customURL={customURL} />
       </Box>
     </Box>
   );

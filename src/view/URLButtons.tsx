@@ -256,7 +256,7 @@ const URLButtons: React.FC<URLButtonsProps> = ({
     const newButton: UrlButton = {
       id: `${urlButtons.length + 1}`,
       title: '',
-      url: '',
+      url: 'https://',
     };
     setUrlButtons([...urlButtons, newButton]);
     setUrlButtonErrors([...urlButtonErrors, { id: '', title: '', url: '' }]);

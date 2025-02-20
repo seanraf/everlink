@@ -19,7 +19,7 @@ const styles = {
 export default function ShareToFarcaster({ customURL }: { customURL: string }) {
   const shareToWarpcast = () => {
     const imageUrl = encodeURIComponent(
-      'https://i.ibb.co/qMCNtRYJ/calling-card-1.png'
+      'https://i.ibb.co/B2V7ddyb/1200-628.png'
     );
     const shareUrl = `https://warpcast.com/~/compose?text=${customURL}&media=${imageUrl}&embeds[]=${imageUrl}`;
     window.open(shareUrl, '_blank');

@@ -23,7 +23,8 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18",
-    "swiper": "^11.1.14"
+    "swiper": "^11.1.14",
+    "@farcaster/frame-sdk": "^0.0.29",
   },
   "devDependencies": {
     "@types/node": "^20",

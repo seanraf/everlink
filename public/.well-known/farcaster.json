@@ -1,0 +1,17 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjg0NTI2MSwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDgxMGJEN0E1OWQ3MmJlNDgxMUU3MTg3NDRmMGZGOGI2NUM4OTRDQTIifQ",
+    "payload": "eyJkb21haW4iOiJjcmVhdGUubXlldmVybGluay5hcHAifQ",
+    "signature": "MHhlMDUzNjQ4ZjE3OWJkMmNiYmFiZDQzNmI4Zjg3Y2ZlMDgwMzgxYmZiYTQwZjE1YTY3NTVkNjgyYjc3NjM0Mjc4MjhiM2ExODE4ZTVhZmVlOWJiODZhMTM3ZWI0NzcxOTZkYzM2N2MxNmFmN2NlODIxOGRkOThjMGQzYjljMDVmMjFi"
+  },
+  "frame": {
+    "version": "1",
+    "name": "Everlink Frame",
+    "iconUrl": "https://create.myeverlink.app/favicon.ico",
+    "homeUrl": "https://create.myeverlink.app",
+    "imageUrl": "https://i.ibb.co/B2V7ddyb/1200-628.png",
+    "buttonTitle": "Create page",
+    "splashImageUrl": "https://create.myeverlink.app/favicon.ico",
+    "splashBackgroundColor": "#000000"
+  }
+}

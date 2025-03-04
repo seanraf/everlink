@@ -7,11 +7,11 @@
   "frame": {
     "version": "1",
     "name": "Everlink Frame",
-    "iconUrl": "https://create.myeverlink.app/favicon.ico",
+    "iconUrl": "https://i.ibb.co/sJCgsrjS/favicon.png",
     "homeUrl": "https://create.myeverlink.app",
     "imageUrl": "https://i.ibb.co/B2V7ddyb/1200-628.png",
     "buttonTitle": "Create page",
-    "splashImageUrl": "https://create.myeverlink.app/favicon.ico",
+    "splashImageUrl": "https://i.ibb.co/sJCgsrjS/favicon.png",
     "splashBackgroundColor": "#000000"
   }
 }

@@ -29,7 +29,7 @@ export default function RootLayout({
                 "type": "launch_frame",
                 "name": "Uniframe",
                 "url": "https://create.myeverlink.app",
-                "splashImageUrl": "https://create.myeverlink.app/favicon.ico",
+                "splashImageUrl": "https://i.ibb.co/sJCgsrjS/favicon.png",
                 "splashBackgroundColor": "#131313"
               }
             }

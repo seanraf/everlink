@@ -55,3 +55,24 @@ export type MinterProps = {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
   renderThemePreview: () => JSX.Element;
 };
+
+export type FrameContextType = {
+  user: {
+    fid: number;
+    username?: string;
+    displayName?: string;
+    pfpUrl?: string;
+    location?: { placeId?: string; description?: string };
+  };
+  client: {
+    clientFid: number;
+    added: boolean;
+  };
+};
+
+export type ContextType = {
+  context: FrameContextType | undefined;
+  setContext: React.Dispatch<
+    React.SetStateAction<FrameContextType | undefined>
+  >;
+};

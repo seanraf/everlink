@@ -7,6 +7,7 @@ import { Box, Button } from '@mui/material';
 import ReactDOMServer from 'react-dom/server';
 import { useAuth } from '@crossmint/client-sdk-react-ui';
 import { DomainContent, UploaderProps } from '@/types';
+import { useFrameContext } from '@/providers/FarcasterContextProvider';
 
 const styles = {
   title: {
@@ -42,6 +43,7 @@ export default function Uploader({
   urlButtons,
 }: UploaderProps) {
   const { user } = useAuth();
+  const { context } = useFrameContext();
   const backendBase = process.env.NEXT_PUBLIC_BACKEND_BASE_URL as string;
   const everlandHostingBase = process.env
     .NEXT_PUBLIC_4EVERLAND_HOSTING_BASE_URL as string;
@@ -55,7 +57,7 @@ export default function Uploader({
 
   const saveDeploymentData = async (
     content: DomainContent,
-    farcasterId: string | undefined
+    farcasterId: string | number | undefined
   ) => {
     try {
       await axios.post(`${backendBase}/api/deploymentHistory/create`, {
@@ -126,7 +128,7 @@ export default function Uploader({
 
       const content = uploadResponse?.data?.content;
       const taskId = content?.taskId;
-      const farcasterId = user?.farcaster?.fid;
+      const farcasterId = user?.farcaster?.fid ?? context?.user?.fid;
       await saveDeploymentData(content, farcasterId);
       const customUrlData = await generateCustomURL(taskId);
       await saveDomainData(

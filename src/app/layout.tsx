@@ -4,6 +4,7 @@ import NavBar from '@/view/NavBar';
 import Providers from '@/providers/provider';
 import CrossmintProvider from '@/providers/Crossmint';
 import FarcasterFrameProvider from '@/providers/FarcasterFrameProvider';
+import { ContextProvider } from '@/providers/FarcasterContextProvider';
 
 export const metadata: Metadata = {
   title: 'Everlink',
@@ -41,8 +42,10 @@ export default function RootLayout({
         <CrossmintProvider>
           <Providers>
             <FarcasterFrameProvider>
-              <NavBar />
-              {children}
+              <ContextProvider>
+                <NavBar />
+                {children}
+              </ContextProvider>
             </FarcasterFrameProvider>
           </Providers>
         </CrossmintProvider>

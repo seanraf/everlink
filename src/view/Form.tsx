@@ -5,6 +5,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Box, Button, InputLabel, TextField, Typography } from '@mui/material';
 import { UrlButton, UrlButtonErrors } from '@/types';
 import { useAuth } from '@crossmint/client-sdk-react-ui';
+import { useFrameContext } from '@/providers/FarcasterContextProvider';
 
 const styles = {
   composeLinkList: {
@@ -82,6 +83,7 @@ const From = ({
   setUrlButtons,
 }: any) => {
   const { user } = useAuth();
+  const { context } = useFrameContext();
   const [showOptionalField, setShowOptionalField] = useState(false);
   const [usernameError, setUsernameError] = useState('');
   const [bioError, setBioError] = useState('');
@@ -93,11 +95,14 @@ const From = ({
   >([{ id: '', title: '', url: '' }]);
 
   useEffect(() => {
-    if (user?.farcaster?.username && !isInitialUsername) {
-      setUserName(user.farcaster.username);
+    if (
+      user?.farcaster?.username ||
+      (context?.user.username && !isInitialUsername)
+    ) {
+      setUserName(user?.farcaster?.username ?? context?.user.username);
       setIsInitialUsername(true);
     }
-  }, [user, isInitialUsername, setUserName]);
+  }, [user, context?.user, isInitialUsername, setUserName]);
 
   useEffect(() => {
     if (user?.farcaster?.bio && !isInitialBio) {

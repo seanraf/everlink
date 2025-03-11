@@ -10,6 +10,7 @@ import Light from './previews/Light';
 import Uploader from './Uploader';
 import Minter from './Minter';
 import { useAuth } from '@crossmint/client-sdk-react-ui';
+import { useFrameContext } from '@/providers/FarcasterContextProvider';
 
 const styles = {
   mainBox: {
@@ -47,6 +48,7 @@ const styles = {
 
 export default function EverlinkPages() {
   const { user } = useAuth();
+  const { context } = useFrameContext();
   const [activeStep, setActiveStep] = useState(0);
   const [userName, setUserName] = useState('');
   const [bio, setBio] = useState('');
@@ -69,8 +71,8 @@ export default function EverlinkPages() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              fid: user?.farcaster?.fid,
-              username: user?.farcaster?.username,
+              fid: user?.farcaster?.fid ?? context?.user?.fid,
+              username: user?.farcaster?.username ?? context?.user?.username,
             }),
           }
         );
@@ -91,10 +93,10 @@ export default function EverlinkPages() {
       }
     };
 
-    if (user && !isUserRegistered) {
+    if (user || (context?.user && !isUserRegistered)) {
       registerUser();
     }
-  }, [user, isUserRegistered]);
+  }, [user, isUserRegistered, context?.user]);
 
   const renderThemePreview = () => {
     switch (selectedTheme) {

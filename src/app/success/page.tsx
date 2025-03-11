@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import ThankYou from '@/view/ThankYou';
 import axios from 'axios';
 import { useAuth } from '@crossmint/client-sdk-react-ui';
+import { useFrameContext } from '@/providers/FarcasterContextProvider';
 
 export default function Page() {
   const { user } = useAuth();
+  const { context } = useFrameContext();
   const backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_BASE_URL as string;
-  const farcasterId = user?.farcaster?.fid;
+  const farcasterId = user?.farcaster?.fid ?? context?.user?.fid;
   const [customURL, setCustomURL] = useState('');
   const [loading, setLoading] = useState(true);
 

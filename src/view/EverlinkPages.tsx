@@ -53,6 +53,7 @@ export default function EverlinkPages() {
   const [userName, setUserName] = useState('');
   const [bio, setBio] = useState('');
   const [analyticsTag, setAnalyticsTag] = useState('');
+  const [deploymentTaskId, setDeploymentTaskId] = useState('');
   const [selectedTheme, setSelectedTheme] = useState('Dark Theme');
   const [urlButtons, setUrlButtons] = useState<UrlButton[]>([
     { id: '1', title: '', url: 'https://' },
@@ -142,6 +143,7 @@ export default function EverlinkPages() {
               setActiveStep={setActiveStep}
               urlButtons={urlButtons}
               selectedTheme={selectedTheme}
+              setDeploymentTaskId={setDeploymentTaskId}
             />
           </>
         );
@@ -195,6 +197,7 @@ export default function EverlinkPages() {
       <Box display={activeStep === 2 ? 'flex' : 'none'}>
         <Minter
           setActiveStep={setActiveStep}
+          deploymentTaskId={deploymentTaskId}
           renderThemePreview={renderThemePreview}
         />
       </Box>

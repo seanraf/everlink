@@ -82,6 +82,7 @@ const nibPro = localFont({
 export default function Minter({
   setActiveStep,
   renderThemePreview,
+  deploymentTaskId,
 }: MinterProps) {
   const projectId = process.env.NEXT_PUBLIC_CROSSMINT_PROJECT_ID as string;
   const collectionId = process.env
@@ -146,7 +147,7 @@ export default function Minter({
                     quantity: '1',
                   }}
                   checkoutProps={{ paymentMethods: ['fiat', 'ETH', 'SOL'] }}
-                  successCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success`}
+                  successCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`}
                   failureCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/failure`}
                 />
               </Box>

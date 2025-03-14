@@ -41,6 +41,7 @@ export default function Uploader({
   userName,
   bio,
   urlButtons,
+  setDeploymentTaskId,
 }: UploaderProps) {
   const { user } = useAuth();
   const { context } = useFrameContext();
@@ -128,6 +129,7 @@ export default function Uploader({
 
       const content = uploadResponse?.data?.content;
       const taskId = content?.taskId;
+      setDeploymentTaskId(taskId);
       const farcasterId = user?.farcaster?.fid ?? context?.user?.fid;
       await saveDeploymentData(content, farcasterId);
       const customUrlData = await generateCustomURL(taskId);

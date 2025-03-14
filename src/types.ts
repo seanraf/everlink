@@ -44,6 +44,7 @@ export type UploaderProps = {
   userName: string;
   bio: string;
   urlButtons: UrlButton[];
+  setDeploymentTaskId: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export type DomainContent = {
@@ -54,6 +55,7 @@ export type DomainContent = {
 export type MinterProps = {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
   renderThemePreview: () => JSX.Element;
+  deploymentTaskId: string;
 };
 
 export type FrameContextType = {

@@ -25,12 +25,12 @@ export default function RootLayout({
             "version": "next",
             "imageUrl": "https://i.ibb.co/B2V7ddyb/1200-628.png",
             "button": {
-              "title": "Everlink",
+              "title": "EVERLINK",
               "action": {
                 "type": "launch_frame",
-                "name": "Uniframe",
+                "name": "Frame",
                 "url": "https://create.myeverlink.app",
-                "splashImageUrl": "https://i.ibb.co/sJCgsrjS/favicon.png",
+                "splashImageUrl": "https://i.ibb.co/KxWSdvyC/Everlink-Icon.png",
                 "splashBackgroundColor": "#131313"
               }
             }

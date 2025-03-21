@@ -137,10 +137,25 @@ const From = ({
       isValid = false;
     }
 
+    const isValidUrl = (url: string): boolean => {
+      if (!url) {
+        return false;
+      }
+      if (url === 'https://' || url.startsWith('https://https://')) {
+        return false;
+      }
+      const urlPattern = /^(https?|ftp|ws):\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/;
+      return urlPattern.test(url);
+    };
+
     const updatedErrors = urlButtons.map((button: UrlButton) => ({
       id: button.id,
       title: button.title ? '' : 'Please enter button label',
-      url: button.url ? '' : 'Please enter button URL',
+      url: !button.url
+        ? 'Please enter button URL'
+        : isValidUrl(button.url)
+          ? ''
+          : 'Please enter a valid button URL',
     }));
 
     updatedErrors.forEach((error: UrlButtonErrors) => {

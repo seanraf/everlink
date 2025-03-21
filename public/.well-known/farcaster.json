@@ -6,12 +6,12 @@
   },
   "frame": {
     "version": "1",
-    "name": "Everlink Frame",
-    "iconUrl": "https://i.ibb.co/sJCgsrjS/favicon.png",
+    "name": "EVERLINK Frame",
+    "iconUrl": "https://i.ibb.co/KxWSdvyC/Everlink-Icon.png",
     "homeUrl": "https://create.myeverlink.app",
     "imageUrl": "https://i.ibb.co/B2V7ddyb/1200-628.png",
     "buttonTitle": "Create page",
-    "splashImageUrl": "https://i.ibb.co/sJCgsrjS/favicon.png",
+    "splashImageUrl": "https://i.ibb.co/KxWSdvyC/Everlink-Icon.png",
     "splashBackgroundColor": "#000000"
   }
 }

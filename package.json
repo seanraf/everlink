@@ -13,6 +13,7 @@
     "@crossmint/client-sdk-react-ui": "^1.10.7",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@farcaster/frame-sdk": "^0.0.29",
     "@mui/icons-material": "^6.1.2",
     "@mui/material": "^6.1.2",
     "axios": "^1.7.7",
@@ -20,11 +21,12 @@
     "lottie-react": "^2.4.0",
     "next": "14.2.7",
     "react": "^18",
+    "react-device-detect": "^2.2.3",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
+    "react-dnd-touch-backend": "^16.0.1",
     "react-dom": "^18",
-    "swiper": "^11.1.14",
-    "@farcaster/frame-sdk": "^0.0.29"
+    "swiper": "^11.1.14"
   },
   "devDependencies": {
     "@types/node": "^20",

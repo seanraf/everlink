@@ -12,9 +12,14 @@ import {
 } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { DraggableItemProps, UrlButton, URLButtonsProps } from '@/types';
+import { TouchBackend } from 'react-dnd-touch-backend';
+import { isMobile } from 'react-device-detect';
 
 const styles = {
-  dragIcon: { mt: { md: '40px', xs: '37px' } },
+  dragIcon: {
+    my: 'auto',
+    display: 'flex',
+  },
   textField: {
     mt: 1,
     '& .MuiOutlinedInput-root': {
@@ -36,7 +41,12 @@ const styles = {
   dragItemOuterBox: {
     display: 'flex',
     width: '100%',
-    gap: 1,
+    border: '1px solid #E7EAEF',
+    my: 1.5,
+    px: 2,
+    py: 2.2,
+    borderRadius: '8px',
+    gap: 1.5,
   },
   addButtonSection: {
     display: 'flex',
@@ -66,7 +76,6 @@ const styles = {
   },
   iconButtonforLarge: {
     color: 'red',
-    mt: '3px',
     width: 36,
     height: 36,
   },
@@ -117,7 +126,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({
   return (
     <Box ref={dragDropRef} sx={styles.dragItemOuterBox}>
       <Box sx={styles.dragIcon}>
-        <Image src={'/DragIcon.svg'} alt='Drag Icon' height={45} width={12} />
+        <Image src={'/DragIcon.svg'} alt='Drag Icon' height={18} width={12} />
       </Box>
       <Box
         width={'100%'}
@@ -134,7 +143,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({
             <Box>
               <InputLabel
                 htmlFor='input-with-icon-adornment'
-                sx={{ ...styles.inputLabel, mt: 2 }}
+                sx={styles.inputLabel}
               >
                 <Box sx={{ display: 'flex', position: 'relative' }}>
                   <Typography>Button Label</Typography>
@@ -185,10 +194,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({
             <Box>
               <InputLabel
                 htmlFor='input-with-icon-adornment'
-                sx={{
-                  ...styles.inputLabel,
-                  mt: { md: 2, xs: 0 },
-                }}
+                sx={styles.inputLabel}
               >
                 URL
               </InputLabel>
@@ -224,7 +230,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({
               md: isHovered && urlButtonsLength !== 1 ? 'flex' : 'none',
               xs: 'none',
             },
-            mt: '50px',
+            mt: '37px',
             ml: 1,
           }}
         >
@@ -290,7 +296,7 @@ const URLButtons: React.FC<URLButtonsProps> = ({
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
       <Box>
         {urlButtons.map((button, index) => (
           <DraggableItem

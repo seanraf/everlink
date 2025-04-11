@@ -1,7 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import {
   Box,
   TextField,
@@ -12,8 +10,25 @@ import {
 } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { DraggableItemProps, UrlButton, URLButtonsProps } from '@/types';
-import { TouchBackend } from 'react-dnd-touch-backend';
-import { isMobile } from 'react-device-detect';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  TouchSensor,
+  KeyboardSensor,
+  DragOverlay,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+  sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
 const styles = {
   dragIcon: {
@@ -55,7 +70,6 @@ const styles = {
   },
   addButtonBox: {
     display: 'flex',
-    cursor: 'pointer',
   },
   addRoundedIcon: {
     width: '20px',
@@ -87,168 +101,154 @@ const styles = {
     top: 0,
   },
 };
-const DraggableItem: React.FC<DraggableItemProps> = ({
+
+const SortableItem: React.FC<DraggableItemProps> = ({
   button,
   index,
-  moveButton,
   handleInputChange,
   handleDelete,
   error,
   urlButtonsLength,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-
-  const [, drag] = useDrag({
-    type: 'button',
-    item: { index },
+  const dragHandleRef = React.useRef<HTMLDivElement | null>(null);
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+    setActivatorNodeRef,
+  } = useSortable({
+    id: button.id,
   });
 
-  const [, drop] = useDrop({
-    accept: 'button',
-    hover: (draggedItem: { index: number }) => {
-      if (draggedItem.index !== index) {
-        moveButton(draggedItem.index, index);
-        draggedItem.index = index;
-      }
-    },
-  });
+  React.useEffect(() => {
+    if (dragHandleRef.current) {
+      setActivatorNodeRef(dragHandleRef.current);
+    }
+  }, [setActivatorNodeRef]);
 
-  const dragDropRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      if (node) {
-        drag(node);
-        drop(node);
-      }
-    },
-    [drag, drop]
-  );
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition: isDragging ? 'none' : transition,
+    width: '100%',
+    opacity: isDragging ? 0 : 1,
+  };
 
   return (
-    <Box ref={dragDropRef} sx={styles.dragItemOuterBox}>
-      <Box sx={styles.dragIcon}>
-        <Image src={'/DragIcon.svg'} alt='Drag Icon' height={18} width={12} />
-      </Box>
-      <Box
-        width={'100%'}
-        sx={{ display: 'flex' }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <Grid2
-          container
-          spacing={2}
-          style={{ position: 'relative', width: '100%' }}
+    <div ref={setNodeRef} style={style} {...attributes}>
+      <Box sx={styles.dragItemOuterBox}>
+        <Box
+          sx={{
+            ...styles.dragIcon,
+            cursor: 'grab',
+            '&:active': {
+              cursor: 'grabbing',
+            },
+          }}
+          ref={dragHandleRef}
+          {...listeners}
+          style={{ touchAction: 'none' }}
         >
-          <Grid2 size={{ md: 6, xs: 12 }}>
-            <Box>
-              <InputLabel
-                htmlFor='input-with-icon-adornment'
-                sx={styles.inputLabel}
-              >
-                <Box sx={{ display: 'flex', position: 'relative' }}>
-                  <Typography>Button Label</Typography>
-                  <IconButton
-                    edge='end'
-                    sx={{
-                      ...styles.iconButtonforSmall,
-                      visibility: {
-                        md: 'hidden',
-                        xs: urlButtonsLength === 1 ? 'hidden' : 'visible',
-                      },
-                    }}
-                    onClick={() => handleDelete(index)}
-                  >
-                    <Image
-                      src={'/DeleteIcon.svg'}
-                      alt='Delete'
-                      width={20}
-                      height={20}
-                    />
-                  </IconButton>
-                </Box>
-              </InputLabel>
-              <TextField
-                InputProps={{
-                  inputProps: {
-                    style: {
-                      padding: '0 10px',
-                      height: '48px',
-                      width: '100%',
-                      backgroundColor: '#F8F8F8',
-                    },
-                  },
-                }}
-                sx={styles.textField}
-                value={button.title}
-                onChange={(e) => handleInputChange(e, index, 'title')}
-                required
-                fullWidth
-                id='outlined-basic'
-                variant='outlined'
-                error={!!error?.title}
-                helperText={error?.title}
-              />
-            </Box>
-          </Grid2>
-          <Grid2 size={{ md: 6, xs: 12 }}>
-            <Box>
-              <InputLabel
-                htmlFor='input-with-icon-adornment'
-                sx={styles.inputLabel}
-              >
-                URL
-              </InputLabel>
+          <Image
+            src={'/DragIcon.svg'}
+            alt='Drag Icon'
+            height={18}
+            width={12}
+            draggable='false'
+          />
+        </Box>
+        <Box
+          sx={{ display: 'flex', width: '100%' }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <Grid2
+            container
+            spacing={2}
+            style={{ position: 'relative', width: '100%' }}
+          >
+            <Grid2 size={{ md: 6, xs: 12 }}>
               <Box>
+                <InputLabel sx={styles.inputLabel}>
+                  <Box sx={{ display: 'flex', position: 'relative' }}>
+                    <Typography>Button Label</Typography>
+                    <IconButton
+                      edge='end'
+                      sx={{
+                        ...styles.iconButtonforSmall,
+                        visibility: {
+                          md: 'hidden',
+                          xs: urlButtonsLength === 1 ? 'hidden' : 'visible',
+                        },
+                      }}
+                      onClick={() => handleDelete(index)}
+                    >
+                      <Image
+                        src={'/DeleteIcon.svg'}
+                        alt='Delete'
+                        width={20}
+                        height={20}
+                      />
+                    </IconButton>
+                  </Box>
+                </InputLabel>
                 <TextField
-                  InputProps={{
-                    inputProps: {
-                      style: {
-                        padding: '0 10px',
-                        height: '48px',
-                        width: '100%',
-                        backgroundColor: '#F8F8F8',
-                      },
-                    },
-                  }}
+                  sx={styles.textField}
+                  value={button.title}
+                  onChange={(e) => handleInputChange(e, index, 'title')}
+                  required
+                  fullWidth
+                  variant='outlined'
+                  error={!!error?.title}
+                  helperText={error?.title}
+                />
+              </Box>
+            </Grid2>
+            <Grid2 size={{ md: 6, xs: 12 }}>
+              <Box>
+                <InputLabel sx={styles.inputLabel}>URL</InputLabel>
+                <TextField
                   sx={styles.textField}
                   value={button.url}
                   onChange={(e) => handleInputChange(e, index, 'url')}
                   required
                   fullWidth
-                  id='outlined-basic'
                   variant='outlined'
                   error={!!error?.url}
                   helperText={error?.url}
                 />
               </Box>
-            </Box>
+            </Grid2>
           </Grid2>
-        </Grid2>
-        <Box
-          sx={{
-            display: {
-              md: isHovered && urlButtonsLength !== 1 ? 'flex' : 'none',
-              xs: 'none',
-            },
-            mt: '37px',
-            ml: 1,
-          }}
-        >
-          <IconButton
-            edge='end'
-            sx={styles.iconButtonforLarge}
-            onClick={() => handleDelete(index)}
+          <Box
+            sx={{
+              display: {
+                md: isHovered && urlButtonsLength !== 1 ? 'flex' : 'none',
+                xs: 'none',
+              },
+              mt: '37px',
+              ml: 1,
+            }}
           >
-            <Image
-              src={'/DeleteIcon.svg'}
-              alt='Delete'
-              width={24}
-              height={24}
-            />
-          </IconButton>
+            <IconButton
+              edge='end'
+              sx={styles.iconButtonforLarge}
+              onClick={() => handleDelete(index)}
+            >
+              <Image
+                src={'/DeleteIcon.svg'}
+                alt='Delete'
+                width={24}
+                height={24}
+              />
+            </IconButton>
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </div>
   );
 };
 
@@ -257,22 +257,51 @@ const URLButtons: React.FC<URLButtonsProps> = ({
   setUrlButtons,
   urlButtonErrors,
   setUrlButtonErrors,
-}: URLButtonsProps) => {
+}) => {
+  const [activeId, setActiveId] = React.useState<string | null>(null); // Track active drag item
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragStart = (event: any) => {
+    const { active } = event;
+    setActiveId(active.id);
+  };
+
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+    setActiveId(null);
+    if (active.id !== over?.id) {
+      const oldIndex = urlButtons.findIndex((btn) => btn.id === active.id);
+      const newIndex = urlButtons.findIndex((btn) => btn.id === over?.id);
+      const updated = arrayMove(urlButtons, oldIndex, newIndex);
+      setUrlButtons(updated);
+    }
+  };
+
+  const activeItem = urlButtons.find((btn) => btn.id === activeId);
+
   const addButton = () => {
     const newButton: UrlButton = {
-      id: `${urlButtons.length + 1}`,
+      id: `${urlButtons.length + 1}-${Date.now()}`,
       title: '',
       url: 'https://',
     };
     setUrlButtons([...urlButtons, newButton]);
     setUrlButtonErrors([...urlButtonErrors, { id: '', title: '', url: '' }]);
-  };
-
-  const moveButton = (fromIndex: number, toIndex: number) => {
-    const updatedButtons = [...urlButtons];
-    const [movedButton] = updatedButtons.splice(fromIndex, 1);
-    updatedButtons.splice(toIndex, 0, movedButton);
-    setUrlButtons(updatedButtons);
   };
 
   const handleInputChange = (
@@ -296,28 +325,132 @@ const URLButtons: React.FC<URLButtonsProps> = ({
   };
 
   return (
-    <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-      <Box>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      modifiers={[restrictToVerticalAxis]}
+    >
+      <SortableContext
+        items={urlButtons.map((b) => b.id)}
+        strategy={verticalListSortingStrategy}
+      >
         {urlButtons.map((button, index) => (
-          <DraggableItem
-            key={button?.id}
+          <SortableItem
+            key={button.id}
             index={index}
             button={button}
-            moveButton={moveButton}
             handleInputChange={handleInputChange}
             handleDelete={handleDelete}
             error={urlButtonErrors[index]}
-            urlButtonsLength={urlButtons?.length}
+            urlButtonsLength={urlButtons.length}
+            moveButton={() => {}}
           />
         ))}
-      </Box>
+      </SortableContext>
+      <DragOverlay
+        adjustScale={false}
+        dropAnimation={{
+          duration: 300,
+          easing: 'cubic-bezier(0.18, 0.67, 0.6, 0.99)',
+        }}
+      >
+        {activeId ? (
+          <Box
+            sx={{
+              ...styles.dragItemOuterBox,
+              transform: 'scale(1.02)',
+              cursor: 'grabbing',
+            }}
+            bgcolor={'#ffffff'}
+          >
+            <Box sx={styles.dragIcon}>
+              <Image
+                src={'/DragIcon.svg'}
+                alt='Drag Icon'
+                height={18}
+                width={12}
+              />
+            </Box>
+            <Box width={'100%'} sx={{ display: 'flex' }}>
+              <Grid2
+                container
+                spacing={2}
+                style={{ position: 'relative', width: '100%' }}
+              >
+                <Grid2 size={{ md: 6, xs: 12 }}>
+                  <Box>
+                    <InputLabel
+                      htmlFor='input-with-icon-adornment'
+                      sx={styles.inputLabel}
+                    >
+                      <Box sx={{ display: 'flex' }}>
+                        <Typography>Button Label</Typography>
+                      </Box>
+                    </InputLabel>
+                    <TextField
+                      InputProps={{
+                        inputProps: {
+                          style: {
+                            padding: '0 10px',
+                            height: '48px',
+                            width: '100%',
+                            backgroundColor: '#F8F8F8',
+                          },
+                        },
+                      }}
+                      sx={styles.textField}
+                      value={activeItem?.title}
+                      fullWidth
+                      id='outlined-basic'
+                      variant='outlined'
+                    />
+                  </Box>
+                </Grid2>
+                <Grid2 size={{ md: 6, xs: 12 }}>
+                  <Box>
+                    <InputLabel
+                      htmlFor='input-with-icon-adornment'
+                      sx={styles.inputLabel}
+                    >
+                      URL
+                    </InputLabel>
+                    <Box>
+                      <TextField
+                        InputProps={{
+                          inputProps: {
+                            style: {
+                              padding: '0 10px',
+                              height: '48px',
+                              width: '100%',
+                              backgroundColor: '#F8F8F8',
+                            },
+                          },
+                        }}
+                        sx={styles.textField}
+                        value={activeItem?.url}
+                        required
+                        fullWidth
+                        id='outlined-basic'
+                        variant='outlined'
+                      />
+                    </Box>
+                  </Box>
+                </Grid2>
+              </Grid2>
+            </Box>
+          </Box>
+        ) : null}
+      </DragOverlay>
+
       <Box sx={styles.addButtonSection}>
         <Box sx={styles.addButtonBox} onClick={addButton}>
           <AddRoundedIcon sx={styles.addRoundedIcon} />
           <Typography sx={styles.addButton}>Add Button</Typography>
         </Box>
       </Box>
-    </DndProvider>
+    </DndContext>
   );
 };
 

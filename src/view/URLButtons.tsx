@@ -360,7 +360,6 @@ const URLButtons: React.FC<URLButtonsProps> = ({
           <Box
             sx={{
               ...styles.dragItemOuterBox,
-              transform: 'scale(1.02)',
               cursor: 'grabbing',
             }}
             bgcolor={'#ffffff'}

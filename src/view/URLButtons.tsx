@@ -62,6 +62,7 @@ const styles = {
     py: 2.2,
     borderRadius: '8px',
     gap: 1.5,
+    cursor: 'default',
   },
   addButtonSection: {
     display: 'flex',
@@ -70,6 +71,7 @@ const styles = {
   },
   addButtonBox: {
     display: 'flex',
+    cursor: 'pointer',
   },
   addRoundedIcon: {
     width: '20px',
@@ -325,97 +327,70 @@ const URLButtons: React.FC<URLButtonsProps> = ({
   };
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      modifiers={[restrictToVerticalAxis]}
-    >
-      <SortableContext
-        items={urlButtons.map((b) => b.id)}
-        strategy={verticalListSortingStrategy}
+    <Box sx={{ cursor: 'default' }}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        modifiers={[restrictToVerticalAxis]}
       >
-        {urlButtons.map((button, index) => (
-          <SortableItem
-            key={button.id}
-            index={index}
-            button={button}
-            handleInputChange={handleInputChange}
-            handleDelete={handleDelete}
-            error={urlButtonErrors[index]}
-            urlButtonsLength={urlButtons.length}
-            moveButton={() => {}}
-          />
-        ))}
-      </SortableContext>
-      <DragOverlay
-        adjustScale={false}
-        dropAnimation={{
-          duration: 300,
-          easing: 'cubic-bezier(0.18, 0.67, 0.6, 0.99)',
-        }}
-      >
-        {activeId ? (
-          <Box
-            sx={{
-              ...styles.dragItemOuterBox,
-              cursor: 'grabbing',
-            }}
-            bgcolor={'#ffffff'}
-          >
-            <Box sx={styles.dragIcon}>
-              <Image
-                src={'/DragIcon.svg'}
-                alt='Drag Icon'
-                height={18}
-                width={12}
-              />
-            </Box>
-            <Box width={'100%'} sx={{ display: 'flex' }}>
-              <Grid2
-                container
-                spacing={2}
-                style={{ position: 'relative', width: '100%' }}
-              >
-                <Grid2 size={{ md: 6, xs: 12 }}>
-                  <Box>
-                    <InputLabel
-                      htmlFor='input-with-icon-adornment'
-                      sx={styles.inputLabel}
-                    >
-                      <Box sx={{ display: 'flex' }}>
-                        <Typography>Button Label</Typography>
-                      </Box>
-                    </InputLabel>
-                    <TextField
-                      InputProps={{
-                        inputProps: {
-                          style: {
-                            padding: '0 10px',
-                            height: '48px',
-                            width: '100%',
-                            backgroundColor: '#F8F8F8',
-                          },
-                        },
-                      }}
-                      sx={styles.textField}
-                      value={activeItem?.title}
-                      fullWidth
-                      id='outlined-basic'
-                      variant='outlined'
-                    />
-                  </Box>
-                </Grid2>
-                <Grid2 size={{ md: 6, xs: 12 }}>
-                  <Box>
-                    <InputLabel
-                      htmlFor='input-with-icon-adornment'
-                      sx={styles.inputLabel}
-                    >
-                      URL
-                    </InputLabel>
+        <SortableContext
+          items={urlButtons.map((b) => b.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {urlButtons.map((button, index) => (
+            <SortableItem
+              key={button.id}
+              index={index}
+              button={button}
+              handleInputChange={handleInputChange}
+              handleDelete={handleDelete}
+              error={urlButtonErrors[index]}
+              urlButtonsLength={urlButtons.length}
+              moveButton={() => {}}
+            />
+          ))}
+        </SortableContext>
+        <DragOverlay
+          adjustScale={false}
+          dropAnimation={{
+            duration: 300,
+            easing: 'cubic-bezier(0.18, 0.67, 0.6, 0.99)',
+          }}
+        >
+          {activeId ? (
+            <Box
+              sx={{
+                ...styles.dragItemOuterBox,
+                cursor: 'grabbing',
+              }}
+              bgcolor={'#ffffff'}
+            >
+              <Box sx={styles.dragIcon}>
+                <Image
+                  src={'/DragIcon.svg'}
+                  alt='Drag Icon'
+                  height={18}
+                  width={12}
+                />
+              </Box>
+              <Box width={'100%'} sx={{ display: 'flex' }}>
+                <Grid2
+                  container
+                  spacing={2}
+                  style={{ position: 'relative', width: '100%' }}
+                >
+                  <Grid2 size={{ md: 6, xs: 12 }}>
                     <Box>
+                      <InputLabel
+                        htmlFor='input-with-icon-adornment'
+                        sx={styles.inputLabel}
+                      >
+                        <Box sx={{ display: 'flex' }}>
+                          <Typography>Button Label</Typography>
+                        </Box>
+                      </InputLabel>
                       <TextField
                         InputProps={{
                           inputProps: {
@@ -428,28 +403,57 @@ const URLButtons: React.FC<URLButtonsProps> = ({
                           },
                         }}
                         sx={styles.textField}
-                        value={activeItem?.url}
-                        required
+                        value={activeItem?.title}
                         fullWidth
                         id='outlined-basic'
                         variant='outlined'
                       />
                     </Box>
-                  </Box>
+                  </Grid2>
+                  <Grid2 size={{ md: 6, xs: 12 }}>
+                    <Box>
+                      <InputLabel
+                        htmlFor='input-with-icon-adornment'
+                        sx={styles.inputLabel}
+                      >
+                        URL
+                      </InputLabel>
+                      <Box>
+                        <TextField
+                          InputProps={{
+                            inputProps: {
+                              style: {
+                                padding: '0 10px',
+                                height: '48px',
+                                width: '100%',
+                                backgroundColor: '#F8F8F8',
+                              },
+                            },
+                          }}
+                          sx={styles.textField}
+                          value={activeItem?.url}
+                          required
+                          fullWidth
+                          id='outlined-basic'
+                          variant='outlined'
+                        />
+                      </Box>
+                    </Box>
+                  </Grid2>
                 </Grid2>
-              </Grid2>
+              </Box>
             </Box>
-          </Box>
-        ) : null}
-      </DragOverlay>
+          ) : null}
+        </DragOverlay>
 
-      <Box sx={styles.addButtonSection}>
-        <Box sx={styles.addButtonBox} onClick={addButton}>
-          <AddRoundedIcon sx={styles.addRoundedIcon} />
-          <Typography sx={styles.addButton}>Add Button</Typography>
+        <Box sx={styles.addButtonSection}>
+          <Box sx={styles.addButtonBox} onClick={addButton}>
+            <AddRoundedIcon sx={styles.addRoundedIcon} />
+            <Typography sx={styles.addButton}>Add Button</Typography>
+          </Box>
         </Box>
-      </Box>
-    </DndContext>
+      </DndContext>
+    </Box>
   );
 };
 

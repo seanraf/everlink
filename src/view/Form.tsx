@@ -115,7 +115,7 @@ const From = ({
     setShowOptionalField((prev) => !prev);
   };
 
-  const usernamePattern = /^[a-zA-Z0-9_ ]*$/;
+  const usernamePattern = /^[a-zA-Z0-9_\-@. ]*$/;
 
   const validateInputs = () => {
     let isValid = true;

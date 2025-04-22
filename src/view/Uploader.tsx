@@ -60,6 +60,10 @@ export default function Uploader({
     content: DomainContent,
     farcasterId: string | number | undefined
   ) => {
+    if (!farcasterId) {
+      window.location.href = '/';
+      return;
+    }
     try {
       await axios.post(`${backendBase}/api/deploymentHistory/create`, {
         content,
@@ -107,6 +111,8 @@ export default function Uploader({
       );
     } catch (error) {
       console.error('Error saving domain data:', error);
+
+      window.location.href = '/';
     }
   };
 
@@ -204,8 +210,8 @@ export default function Uploader({
     setActiveStep(0);
   };
 
-  const handleMint = () => {
-    handleMintData();
+  const handleMint = async () => {
+    await handleMintData();
     setActiveStep(2);
   };
 

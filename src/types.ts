@@ -45,6 +45,14 @@ export type UploaderProps = {
   bio: string;
   urlButtons: UrlButton[];
   setDeploymentTaskId: React.Dispatch<React.SetStateAction<string>>;
+  setSnackbar: React.Dispatch<
+    React.SetStateAction<{
+      open: boolean;
+      message: string;
+      severity: 'error' | 'success';
+    }>
+  >;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type DomainContent = {
@@ -56,6 +64,7 @@ export type MinterProps = {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
   renderThemePreview: () => JSX.Element;
   deploymentTaskId: string;
+  loading: boolean;
 };
 
 export type FrameContextType = {

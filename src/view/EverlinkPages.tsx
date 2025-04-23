@@ -11,6 +11,7 @@ import Uploader from './Uploader';
 import Minter from './Minter';
 import { useAuth } from '@crossmint/client-sdk-react-ui';
 import { useFrameContext } from '@/providers/FarcasterContextProvider';
+import { SnackbarAlert } from '@/components/SnackbarAlert';
 
 const styles = {
   mainBox: {
@@ -61,6 +62,11 @@ export default function EverlinkPages() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: 'success' | 'error';
+  }>({ open: false, message: '', severity: 'success' });
 
   useEffect(() => {
     const registerUser = async () => {
@@ -144,6 +150,8 @@ export default function EverlinkPages() {
               urlButtons={urlButtons}
               selectedTheme={selectedTheme}
               setDeploymentTaskId={setDeploymentTaskId}
+              setSnackbar={setSnackbar}
+              setLoading={setLoading}
             />
           </>
         );
@@ -199,8 +207,15 @@ export default function EverlinkPages() {
           setActiveStep={setActiveStep}
           deploymentTaskId={deploymentTaskId}
           renderThemePreview={renderThemePreview}
+          loading={loading}
         />
       </Box>
+      <SnackbarAlert
+        open={snackbar.open}
+        message={snackbar.message}
+        severity={snackbar.severity}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+      />
     </Box>
   );
 }

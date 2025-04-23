@@ -4,7 +4,7 @@ import ThankYou from '@/view/ThankYou';
 import axios from 'axios';
 import { usePathname } from 'next/navigation';
 import { Box } from '@mui/material';
-import Image from 'next/image';
+import Loader from '@/view/Loader';
 
 export default function Page() {
   const backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_BASE_URL as string;
@@ -66,17 +66,7 @@ export default function Page() {
           )}
         </>
       ) : (
-        <Box height={'calc(100vh - 144px)'} m={'auto'} display={'flex'}>
-          <Image
-            src={'/loader.gif'}
-            alt='Loader'
-            width={60}
-            height={60}
-            style={{
-              margin: 'auto',
-            }}
-          />
-        </Box>
+        <Loader />
       )}
     </Box>
   );

@@ -42,6 +42,8 @@ export default function Uploader({
   bio,
   urlButtons,
   setDeploymentTaskId,
+  setSnackbar,
+  setLoading,
 }: UploaderProps) {
   const { user } = useAuth();
   const { context } = useFrameContext();
@@ -61,25 +63,38 @@ export default function Uploader({
     farcasterId: string | number | undefined
   ) => {
     if (!farcasterId) {
-      window.location.href = '/';
+      setSnackbar({
+        open: true,
+        message: 'Authentication Failed. Please try again.',
+        severity: 'error',
+      });
+      setTimeout(() => (window.location.href = '/'), 1000);
       return;
     }
     try {
-      await axios.post(`${backendBase}/api/deploymentHistory/create`, {
-        content,
-        farcasterId,
-      });
+      const response = await axios.post(
+        `${backendBase}/api/deploymentHistory/create`,
+        {
+          content,
+          farcasterId,
+        }
+      );
+      return response;
     } catch (error) {
       console.error('Error saving deployment data:', error);
     }
   };
 
-  const generateCustomURL = async (originalURL: string) => {
+  const generateCustomURL = async (taskId: string) => {
+    if (!taskId) {
+      return;
+    }
+
     try {
       const response = await axios.post(
         shortIoUrl,
         {
-          originalURL: `${frontendBaseUrl}/${originalURL}`,
+          originalURL: `${frontendBaseUrl}/${taskId}`,
           domain,
         },
         {
@@ -92,7 +107,6 @@ export default function Uploader({
       return response.data;
     } catch (error) {
       console.error('Error shortening URL:', error);
-      throw error;
     }
   };
 
@@ -101,22 +115,34 @@ export default function Uploader({
     latestLink: string,
     shortIoId: string
   ) => {
+    if (!taskId || !latestLink || !shortIoId) {
+      setSnackbar({
+        open: true,
+        message: 'Oops! Something went wrong. Please try again.',
+        severity: 'error',
+      });
+      setTimeout(() => (window.location.href = '/'), 1000);
+      return;
+    }
+
     try {
-      const response = await axios.put(
-        `${backendBaseUrl}/api/deploymentHistory/${taskId}`,
-        {
-          customUrl: latestLink,
-          shortUrlId: shortIoId,
-        }
-      );
+      await axios.put(`${backendBaseUrl}/api/deploymentHistory/${taskId}`, {
+        customUrl: latestLink,
+        shortUrlId: shortIoId,
+      });
+      setLoading(false);
     } catch (error) {
       console.error('Error saving domain data:', error);
-
-      window.location.href = '/';
+      setSnackbar({
+        open: true,
+        message: 'Server Error. Please try again.',
+        severity: 'error',
+      });
+      setTimeout(() => (window.location.href = '/'), 1000);
     }
   };
 
-  const uploadHTMLFile = async (file: any) => {
+  const uploadHTMLFile = async (file: Blob) => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('projectId', everlandProjectId);
@@ -206,11 +232,9 @@ export default function Uploader({
     uploadHTMLFile(zipBlob);
   };
 
-  const handleBack = () => {
-    setActiveStep(0);
-  };
-
+  const handleBack = () => setActiveStep(0);
   const handleMint = async () => {
+    setLoading(true);
     await handleMintData();
     setActiveStep(2);
   };

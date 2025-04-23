@@ -198,6 +198,16 @@ const SortableItem: React.FC<DraggableItemProps> = ({
                   </Box>
                 </InputLabel>
                 <TextField
+                  InputProps={{
+                    inputProps: {
+                      style: {
+                        padding: '0 10px',
+                        height: '48px',
+                        width: '100%',
+                        backgroundColor: '#F8F8F8',
+                      },
+                    },
+                  }}
                   sx={styles.textField}
                   value={button.title}
                   onChange={(e) => handleInputChange(e, index, 'title')}
@@ -213,6 +223,16 @@ const SortableItem: React.FC<DraggableItemProps> = ({
               <Box>
                 <InputLabel sx={styles.inputLabel}>URL</InputLabel>
                 <TextField
+                  InputProps={{
+                    inputProps: {
+                      style: {
+                        padding: '0 10px',
+                        height: '48px',
+                        width: '100%',
+                        backgroundColor: '#F8F8F8',
+                      },
+                    },
+                  }}
                   sx={styles.textField}
                   value={button.url}
                   onChange={(e) => handleInputChange(e, index, 'url')}

@@ -4,6 +4,7 @@ import { Box, Grid2, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { MinterProps } from '@/types';
 import { CrossmintPayButton } from '@crossmint/client-sdk-react-ui';
 import localFont from 'next/font/local';
+import Loader from './Loader';
 
 const styles = {
   containerBox: {
@@ -53,6 +54,7 @@ const styles = {
     overflow: 'hidden',
     filter: 'blur(4px)',
     userSelect: 'none',
+    px: 1,
   },
   iconBox: {
     display: 'flex',
@@ -83,6 +85,7 @@ export default function Minter({
   setActiveStep,
   renderThemePreview,
   deploymentTaskId,
+  loading,
 }: MinterProps) {
   const projectId = process.env.NEXT_PUBLIC_CROSSMINT_PROJECT_ID as string;
   const collectionId = process.env
@@ -91,7 +94,8 @@ export default function Minter({
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
   return (
-    <Box sx={styles.containerBox}>
+    <Box sx={styles.containerBox} position={'relative'}>
+      {loading && <Loader bgcolor={'#FFFFFFCC'} />}
       <Grid2 container width={'90%'} mx={'auto'}>
         <Grid2 size={{ md: 7.5, xs: 12 }} display={'flex'}>
           {' '}
@@ -121,7 +125,7 @@ export default function Minter({
                   height={25.94}
                 />
               </Box>
-              <Box flexGrow={1} overflow={'hidden'} ml={1}>
+              <Box flexGrow={1} overflow={'hidden'}>
                 <Typography sx={styles.linkText}>
                   https://www.everlink.com/l5TzftrtkA_Nbc1uukUteXLSIgQhcFNZP-Hb4pJBtdg
                 </Typography>

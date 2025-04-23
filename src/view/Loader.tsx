@@ -1,0 +1,25 @@
+import React from 'react';
+import Image from 'next/image';
+import { Box } from '@mui/material';
+
+export default function Loader({ bgcolor = '#FFFFFF' }: { bgcolor?: string }) {
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        height: 'calc(100vh - 144px)',
+        display: 'flex',
+        position: 'absolute',
+        bgcolor: bgcolor,
+      }}
+    >
+      <Image
+        src={'/loader.gif'}
+        alt='Loader'
+        width={60}
+        height={60}
+        style={{ margin: 'auto' }}
+      />
+    </Box>
+  );
+}

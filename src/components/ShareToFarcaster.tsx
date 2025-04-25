@@ -24,18 +24,20 @@ export default function ShareToFarcaster({ customURL }: { customURL: string }) {
     setIsIOS(/iPad|iPhone|iPod/.test(navigator.userAgent));
   }, []);
   const shareToWarpcast = () => {
-    const imageUrl = encodeURIComponent(
-      'https://i.ibb.co/B2V7ddyb/1200-628.png'
-    );
-    const shareUrl = `https://warpcast.com/~/compose?text=${customURL}&media=${imageUrl}&embeds[]=${imageUrl}`;
+    const imageUrl = 'https://i.ibb.co/B2V7ddyb/1200-628.png';
+    const encodedImageUrl = encodeURIComponent(imageUrl);
+    const webUrl = `https://warpcast.com/~/compose?text=${customURL}&media=${encodedImageUrl}&embeds[]=${encodedImageUrl}`;
+    const deepLinkUrl = `warpcast://~/compose?text=${customURL}&embeds[]=${encodedImageUrl}`;
 
     if (isIOS) {
-      window.location.href = `warpcast://~/compose?text=${customURL}&media=${imageUrl}&embeds[]=${imageUrl}`;
+      window.location.href = deepLinkUrl;
       setTimeout(() => {
-        window.location.href = shareUrl;
-      }, 250);
+        if (!document.hidden) {
+          window.location.href = webUrl;
+        }
+      }, 500);
     } else {
-      window.open(shareUrl, '_blank');
+      window.open(webUrl, '_blank');
     }
   };
 

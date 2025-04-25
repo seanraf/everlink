@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
 const styles = {
@@ -29,31 +29,35 @@ export default function ShareToFarcaster({ customURL }: { customURL: string }) {
     const webUrl = `https://warpcast.com/~/compose?text=${customURL}&media=${encodedImageUrl}&embeds[]=${encodedImageUrl}`;
     const deepLinkUrl = `warpcast://~/compose?text=${customURL}&embeds[]=${encodedImageUrl}`;
 
-    if (isIOS) {
-      window.location.href = deepLinkUrl;
-      setTimeout(() => {
-        if (!document.hidden) {
-          window.location.href = webUrl;
-        }
-      }, 500);
-    } else {
-      window.open(webUrl, '_blank');
-    }
+    // if (isIOS) {
+    //   window.location.href = deepLinkUrl;
+    //   setTimeout(() => {
+    //     if (!document.hidden) {
+    //       window.location.href = webUrl;
+    //     }
+    //   }, 500);
+    // } else {
+    //   window.open(webUrl, '_blank');
+    // }
+    return webUrl;
   };
 
   return (
-    <Button
-      variant='outlined'
-      sx={styles.shareToFarcaster}
-      onClick={shareToWarpcast}
-    >
-      <Image
-        src={'/FarcasterPurpleLogo.svg'}
-        alt='Icon'
-        width={25.86}
-        height={24}
-      />
-      Share To Farcaster Frame
-    </Button>
+    <>
+      <Typography>IOS detected : {isIOS}</Typography>
+      <Button
+        variant='outlined'
+        sx={styles.shareToFarcaster}
+        onClick={shareToWarpcast}
+      >
+        <Image
+          src={'/FarcasterPurpleLogo.svg'}
+          alt='Icon'
+          width={25.86}
+          height={24}
+        />
+        Share To Farcaster Frame
+      </Button>
+    </>
   );
 }

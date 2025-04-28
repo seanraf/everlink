@@ -136,8 +136,12 @@ export default function Minter({
                   xs: '6px 2px',
                 }}
               >
-                <a target='blank'>
-                  <CrossmintPayButton
+                <a
+                  href='https://www.facebook.com'
+                  target='_blank'
+                  style={{ border: '2px solid black' }}
+                >
+                  {/* <CrossmintPayButton
                     projectId={projectId}
                     collectionId={collectionId}
                     environment={environment}
@@ -159,7 +163,8 @@ export default function Minter({
                     }}
                     successCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`}
                     failureCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/failure`}
-                  />
+                  /> */}
+                  Mint
                 </a>
               </Box>
             </Box>

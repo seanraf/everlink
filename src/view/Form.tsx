@@ -270,7 +270,7 @@ const From = ({
             <InputLabel htmlFor='optional-field' sx={styles.analyticsTagLabel}>
               <Typography>Google Analytics Tag</Typography>
               <Typography color='secondary.contrastText'>
-                Optional Field
+                Optional Field.
               </Typography>
             </InputLabel>
             <TextField

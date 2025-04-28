@@ -150,7 +150,10 @@ export default function Minter({
                     price: '5',
                     quantity: '1',
                   }}
-                  checkoutProps={{ paymentMethods: ['fiat', 'ETH', 'SOL'] }}
+                  checkoutProps={{
+                    paymentMethods: ['fiat', 'ETH', 'SOL'],
+                    display: 'new-tab',
+                  }}
                   successCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`}
                   failureCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/failure`}
                 />

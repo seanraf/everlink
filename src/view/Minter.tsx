@@ -136,36 +136,36 @@ export default function Minter({
                   xs: '6px 2px',
                 }}
               >
-                <a
+                {/* <a
                   href='https://www.facebook.com'
                   target='_blank'
                   style={{ border: '2px solid black' }}
-                >
-                  {/* <CrossmintPayButton
-                    projectId={projectId}
-                    collectionId={collectionId}
-                    environment={environment}
-                    getButtonText={(connecting) =>
-                      connecting ? `Connecting` : `Mint`
-                    }
-                    className='xmint-btn'
-                    style={{
-                      padding: isLargeScreen ? '14px 18px' : '10px 18px',
-                    }}
-                    mintConfig={{
-                      type: 'erc-721',
-                      price: '5',
-                      quantity: '1',
-                    }}
-                    checkoutProps={{
-                      paymentMethods: ['fiat', 'ETH', 'SOL'],
-                      display: 'new-tab',
-                    }}
-                    successCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`}
-                    failureCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/failure`}
-                  /> */}
-                  Mint
-                </a>
+                > */}
+                <CrossmintPayButton
+                  projectId={projectId}
+                  collectionId={collectionId}
+                  environment={environment}
+                  getButtonText={(connecting) =>
+                    connecting ? `Connecting` : `Mint`
+                  }
+                  className='xmint-btn'
+                  style={{
+                    padding: isLargeScreen ? '14px 18px' : '10px 18px',
+                  }}
+                  mintConfig={{
+                    type: 'erc-721',
+                    price: '5',
+                    quantity: '1',
+                  }}
+                  checkoutProps={{
+                    paymentMethods: ['fiat', 'ETH', 'SOL'],
+                    display: 'new-tab',
+                  }}
+                  successCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`}
+                  failureCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/failure`}
+                />
+                {/* Mint */}
+                {/* </a> */}
               </Box>
             </Box>
           </Box>

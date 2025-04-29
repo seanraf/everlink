@@ -181,18 +181,18 @@ const SortableItem: React.FC<DraggableItemProps> = ({
                       edge='end'
                       sx={{
                         ...styles.iconButtonforSmall,
-                        visibility: {
-                          md: 'hidden',
-                          xs: urlButtonsLength === 1 ? 'hidden' : 'visible',
+                        display: {
+                          md: 'none',
+                          xs: urlButtonsLength === 1 ? 'none' : 'flex',
                         },
                       }}
-                      onClick={() => handleDelete(index)}
                     >
                       <Image
                         src={'/DeleteIcon.svg'}
                         alt='Delete'
                         width={20}
                         height={20}
+                        onClick={() => handleDelete(index)}
                       />
                     </IconButton>
                   </Box>
@@ -255,16 +255,13 @@ const SortableItem: React.FC<DraggableItemProps> = ({
               ml: 1,
             }}
           >
-            <IconButton
-              edge='end'
-              sx={styles.iconButtonforLarge}
-              onClick={() => handleDelete(index)}
-            >
+            <IconButton edge='end' sx={styles.iconButtonforLarge}>
               <Image
                 src={'/DeleteIcon.svg'}
                 alt='Delete'
                 width={24}
                 height={24}
+                onClick={() => handleDelete(index)}
               />
             </IconButton>
           </Box>

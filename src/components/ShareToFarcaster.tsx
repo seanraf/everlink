@@ -1,7 +1,8 @@
 'use client';
 
-import { Button } from '@mui/material';
 import Image from 'next/image';
+import { Button } from '@mui/material';
+import { sdk } from '@farcaster/frame-sdk';
 
 const styles = {
   shareToFarcaster: {
@@ -17,13 +18,27 @@ const styles = {
 };
 
 export default function ShareToFarcaster({ customURL }: { customURL: string }) {
-  const shareToWarpcast = () => {
-    const imageUrl = 'https://i.ibb.co/B2V7ddyb/1200-628.png';
-    const encodedImageUrl = encodeURIComponent(imageUrl);
-    const webUrl = `https://warpcast.com/~/compose?text=${customURL}&media=${encodedImageUrl}&embeds[]=${encodedImageUrl}`;
-    const chainUrl = `chain://compose?text=${encodeURIComponent(customURL)}&embeds[]=${encodedImageUrl}`;
-    window.location.href = chainUrl;
-    // return chainUrl;
+  const shareToWarpcast = async () => {
+    try {
+      const result = await sdk.actions.composeCast({
+        text: customURL,
+        embeds: ['https://i.ibb.co/B2V7ddyb/1200-628.png'], // Your image URL
+      });
+
+      console.log('Cast composed successfully:', result.cast.hash);
+    } catch (error) {
+      console.error('Failed to compose cast:', error);
+      // Fallback for non-Farcaster environments
+      window.open(
+        `https://warpcast.com/~/compose?text=${encodeURIComponent(customURL)}&embeds[]=${encodeURIComponent('https://i.ibb.co/B2V7ddyb/1200-628.png')}`,
+        '_blank'
+      );
+    }
+    // const imageUrl = 'https://i.ibb.co/B2V7ddyb/1200-628.png';
+    // const encodedImageUrl = encodeURIComponent(imageUrl);
+    // const webUrl = `https://warpcast.com/~/compose?text=${customURL}&media=${encodedImageUrl}&embeds[]=${encodedImageUrl}`;
+    // const chainUrl = `chain://compose?text=${encodeURIComponent(customURL)}&embeds[]=${encodedImageUrl}`;
+    // window.location.href = chainUrl;
   };
 
   return (

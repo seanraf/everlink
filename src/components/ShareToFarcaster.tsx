@@ -22,7 +22,7 @@ export default function ShareToFarcaster({ customURL }: { customURL: string }) {
     const encodedImageUrl = encodeURIComponent(imageUrl);
     const webUrl = `https://warpcast.com/~/compose?text=${customURL}&media=${encodedImageUrl}&embeds[]=${encodedImageUrl}`;
     const chainUrl = `chain://compose?text=${encodeURIComponent(customURL)}&embeds[]=${encodedImageUrl}`;
-    window.open(chainUrl, '_blank');
+    window.location.href = chainUrl;
     // return chainUrl;
   };
 

@@ -21,29 +21,35 @@ export default function ShareToFarcaster({ customURL }: { customURL: string }) {
     const imageUrl = 'https://i.ibb.co/B2V7ddyb/1200-628.png';
     const encodedImageUrl = encodeURIComponent(imageUrl);
     const webUrl = `https://warpcast.com/~/compose?text=${customURL}&media=${encodedImageUrl}&embeds[]=${encodedImageUrl}`;
-    return webUrl;
+    const chainUrl = `chain://compose?text=${encodeURIComponent(customURL)}&embeds[]=${encodedImageUrl}`;
+    window.open(chainUrl, '_blank');
+    // return chainUrl;
   };
 
   return (
-    <a
-      href={shareToWarpcast()}
-      target='_blank'
-      rel='noopener noreferrer'
-      style={{
-        textDecoration: 'none',
-        alignItems: 'center',
-        display: 'flex',
-      }}
+    // <a
+    //   href={shareToWarpcast()}
+    //   target='_blank'
+    //   rel='noopener noreferrer'
+    //   style={{
+    //     textDecoration: 'none',
+    //     alignItems: 'center',
+    //     display: 'flex',
+    //   }}
+    // >
+    <Button
+      variant='outlined'
+      sx={styles.shareToFarcaster}
+      onClick={shareToWarpcast}
     >
-      <Button variant='outlined' sx={styles.shareToFarcaster}>
-        <Image
-          src={'/FarcasterPurpleLogo.svg'}
-          alt='Icon'
-          width={25.86}
-          height={24}
-        />
-        Share To Farcaster Frame
-      </Button>
-    </a>
+      <Image
+        src={'/FarcasterPurpleLogo.svg'}
+        alt='Icon'
+        width={25.86}
+        height={24}
+      />
+      Share To Farcaster Frame
+    </Button>
+    // </a>
   );
 }

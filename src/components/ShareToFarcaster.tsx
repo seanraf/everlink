@@ -22,36 +22,20 @@ export default function ShareToFarcaster({ customURL }: { customURL: string }) {
     try {
       const result = await sdk.actions.composeCast({
         text: customURL,
-        embeds: ['https://i.ibb.co/B2V7ddyb/1200-628.png'], // Your image URL
+        embeds: ['https://i.ibb.co/B2V7ddyb/1200-628.png'],
       });
 
       console.log('Cast composed successfully:', result.cast.hash);
     } catch (error) {
       console.error('Failed to compose cast:', error);
-      // Fallback for non-Farcaster environments
       window.open(
         `https://warpcast.com/~/compose?text=${encodeURIComponent(customURL)}&embeds[]=${encodeURIComponent('https://i.ibb.co/B2V7ddyb/1200-628.png')}`,
         '_blank'
       );
     }
-    // const imageUrl = 'https://i.ibb.co/B2V7ddyb/1200-628.png';
-    // const encodedImageUrl = encodeURIComponent(imageUrl);
-    // const webUrl = `https://warpcast.com/~/compose?text=${customURL}&media=${encodedImageUrl}&embeds[]=${encodedImageUrl}`;
-    // const chainUrl = `chain://compose?text=${encodeURIComponent(customURL)}&embeds[]=${encodedImageUrl}`;
-    // window.location.href = chainUrl;
   };
 
   return (
-    // <a
-    //   href={shareToWarpcast()}
-    //   target='_blank'
-    //   rel='noopener noreferrer'
-    //   style={{
-    //     textDecoration: 'none',
-    //     alignItems: 'center',
-    //     display: 'flex',
-    //   }}
-    // >
     <Button
       variant='outlined'
       sx={styles.shareToFarcaster}
@@ -65,6 +49,5 @@ export default function ShareToFarcaster({ customURL }: { customURL: string }) {
       />
       Share To Farcaster Frame
     </Button>
-    // </a>
   );
 }

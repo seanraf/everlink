@@ -117,6 +117,34 @@ const From = ({
 
   const usernamePattern = /^[a-zA-Z0-9_\-@. ]*$/;
 
+  const validateUsername = (username: string): string => {
+    if (!username.trim()) {
+      return 'Please enter your username';
+    } else if (!usernamePattern.test(username)) {
+      return 'Username cannot contain Special Character';
+    }
+    return '';
+  };
+
+  const validateBio = (bioText: string): string => {
+    if (!bioText.trim()) {
+      return 'Please enter your bio';
+    }
+    return '';
+  };
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setUserName(value);
+    setUsernameError(validateUsername(value));
+  };
+
+  const handleBioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setBio(value);
+    setBioError(validateBio(value));
+  };
+
   const validateInputs = () => {
     let isValid = true;
 
@@ -124,17 +152,20 @@ const From = ({
     setBioError('');
     setUrlButtonErrors([]);
 
-    if (!userName.trim()) {
-      setUsernameError('Please enter your username');
+    const usernameErrorMsg = validateUsername(userName);
+    if (usernameErrorMsg) {
+      setUsernameError(usernameErrorMsg);
       isValid = false;
-    } else if (!usernamePattern.test(userName)) {
-      setUsernameError('Username cannot contain Special Character');
-      isValid = false;
+    } else {
+      setUsernameError('');
     }
 
-    if (!bio.trim()) {
-      setBioError('Please enter your bio');
+    const bioErrorMsg = validateBio(bio);
+    if (bioErrorMsg) {
+      setBioError(bioErrorMsg);
       isValid = false;
+    } else {
+      setBioError('');
     }
 
     const isValidUrl = (url: string): boolean => {
@@ -212,7 +243,7 @@ const From = ({
             id='outlined-basic'
             variant='outlined'
             value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            onChange={handleUsernameChange}
             error={!!usernameError}
             helperText={usernameError}
           />
@@ -241,7 +272,7 @@ const From = ({
             id='outlined-basic'
             variant='outlined'
             value={bio}
-            onChange={(e) => setBio(e.target.value)}
+            onChange={handleBioChange}
             error={!!bioError}
             helperText={bioError}
           />
@@ -270,7 +301,7 @@ const From = ({
             <InputLabel htmlFor='optional-field' sx={styles.analyticsTagLabel}>
               <Typography>Google Analytics Tag</Typography>
               <Typography color='secondary.contrastText'>
-                Optional Field.
+                Optional Field
               </Typography>
             </InputLabel>
             <TextField

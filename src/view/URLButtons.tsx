@@ -313,6 +313,27 @@ const URLButtons: React.FC<URLButtonsProps> = ({
 
   const activeItem = urlButtons.find((btn) => btn.id === activeId);
 
+  const validateButtonTitle = (title: string): string => {
+    if (!title.trim()) {
+      return 'Please enter button label';
+    }
+    return '';
+  };
+
+  const validateButtonUrl = (url: string): string => {
+    if (!url) {
+      return 'Please enter button URL';
+    }
+    if (url === 'https://' || url.startsWith('https://https://')) {
+      return 'Please enter a valid button URL';
+    }
+    const urlPattern = /^(https?|ftp|ws):\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/;
+    if (!urlPattern.test(url)) {
+      return 'Please enter a valid button URL';
+    }
+    return '';
+  };
+
   const addButton = () => {
     const newButton: UrlButton = {
       id: `${urlButtons.length + 1}-${Date.now()}`,
@@ -320,7 +341,14 @@ const URLButtons: React.FC<URLButtonsProps> = ({
       url: 'https://',
     };
     setUrlButtons([...urlButtons, newButton]);
-    setUrlButtonErrors([...urlButtonErrors, { id: '', title: '', url: '' }]);
+    setUrlButtonErrors([
+      ...urlButtonErrors,
+      {
+        id: newButton.id,
+        title: validateButtonTitle(''),
+        url: validateButtonUrl('https://'),
+      },
+    ]);
   };
 
   const handleInputChange = (
@@ -328,12 +356,26 @@ const URLButtons: React.FC<URLButtonsProps> = ({
     index: number,
     field: string
   ) => {
+    const value = e.target.value;
     const updatedButtons = [...urlButtons];
     updatedButtons[index] = {
       ...updatedButtons[index],
-      [field]: e.target.value,
+      [field]: value,
     };
     setUrlButtons(updatedButtons);
+    const updatedErrors = [...urlButtonErrors];
+    if (field === 'title') {
+      updatedErrors[index] = {
+        ...updatedErrors[index],
+        title: validateButtonTitle(value),
+      };
+    } else if (field === 'url') {
+      updatedErrors[index] = {
+        ...updatedErrors[index],
+        url: validateButtonUrl(value),
+      };
+    }
+    setUrlButtonErrors(updatedErrors);
   };
 
   const handleDelete = (index: number) => {

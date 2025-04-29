@@ -136,7 +136,7 @@ export default function Minter({
                   xs: '6px 2px',
                 }}
               >
-                {/* <CrossmintPayButton
+                <CrossmintPayButton
                   projectId={projectId}
                   collectionId={collectionId}
                   environment={environment}
@@ -158,14 +158,7 @@ export default function Minter({
                   }}
                   successCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`}
                   failureCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/failure`}
-                /> */}
-                <a
-                  href={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`}
-                  style={{ border: '3px solid red' }}
-                >
-                  {' '}
-                  Mint
-                </a>
+                />
               </Box>
             </Box>
           </Box>

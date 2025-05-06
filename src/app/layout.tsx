@@ -25,12 +25,12 @@ export default function RootLayout({
             "version": "next",
             "imageUrl": "https://i.ibb.co/B2V7ddyb/1200-628.png",
             "button": {
-              "title": "EVERLINK",
+              "title": "Create your Everlink",
               "action": {
                 "type": "launch_frame",
                 "name": "Frame",
                 "url": "https://create.myeverlink.app",
-                "splashImageUrl": "https://i.ibb.co/KxWSdvyC/Everlink-Icon.png",
+                "splashImageUrl": "https://i.ibb.co/35p2LBg0/Everlink.png",
                 "splashBackgroundColor": "#131313"
               }
             }

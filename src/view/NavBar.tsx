@@ -20,6 +20,7 @@ const styles = {
     height: '72px',
     borderBottom: '1px solid #F0F0F0',
     display: 'flex',
+    bgcolor: 'primary.contrastText',
   },
   innerContainer: {
     width: '90%',

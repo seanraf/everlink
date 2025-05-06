@@ -7,7 +7,7 @@ export default function Loader({ bgcolor = '#FFFFFF' }: { bgcolor?: string }) {
     <Box
       sx={{
         width: '100%',
-        height: 'calc(100vh - 144px)',
+        height: 'calc(100vh - 72px)',
         display: 'flex',
         position: 'absolute',
         bgcolor: bgcolor,

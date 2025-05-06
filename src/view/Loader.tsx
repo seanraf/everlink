@@ -13,13 +13,15 @@ export default function Loader({ bgcolor = '#FFFFFF' }: { bgcolor?: string }) {
         bgcolor: bgcolor,
       }}
     >
-      <Image
-        src={'/loader.gif'}
-        alt='Loader'
-        width={60}
-        height={60}
-        style={{ margin: 'auto' }}
-      />
+      <Box m={'auto'}>
+        <Image
+          src={'/loader.gif'}
+          alt='Loader'
+          width={60}
+          height={60}
+          style={{ marginBottom: '70px' }}
+        />
+      </Box>
     </Box>
   );
 }

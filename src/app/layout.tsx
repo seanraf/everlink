@@ -28,7 +28,7 @@ export default function RootLayout({
               "title": "Create your Everlink",
               "action": {
                 "type": "launch_frame",
-                "name": "Frame",
+                "name": "Everlink",
                 "url": "https://create.myeverlink.app",
                 "splashImageUrl": "https://i.ibb.co/35p2LBg0/Everlink.png",
                 "splashBackgroundColor": "#131313"

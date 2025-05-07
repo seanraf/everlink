@@ -25,7 +25,7 @@ export default function RootLayout({
             "version": "next",
             "imageUrl": "https://i.ibb.co/B2V7ddyb/1200-628.png",
             "button": {
-              "title": "Create your Everlink.",
+              "title": "Create your Everlink",
               "action": {
                 "type": "launch_frame",
                 "name": "Everlink",

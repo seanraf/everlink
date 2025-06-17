@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   Box,
@@ -12,7 +12,6 @@ import { MinterProps } from '@/types';
 import {
   CrossmintCheckoutProvider,
   CrossmintEmbeddedCheckout,
-  CrossmintHostedCheckout,
   useCrossmintCheckout,
 } from '@crossmint/client-sdk-react-ui';
 import localFont from 'next/font/local';
@@ -87,13 +86,30 @@ const styles = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: { md: '50%', xs: '100%' },
     bgcolor: 'background.paper',
-    border: ' 2px solid #000',
     borderRadius: 2,
     boxShadow: 24,
-    p: 4,
-    pt: 6,
+    p: { md: 3, xs: 1 },
+    pt: { md: 8, xs: 6 },
+  },
+  modelCloseButton: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    zIndex: 1,
+    cursor: 'pointer',
+    width: 32,
+    height: 32,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '50%',
+    backgroundColor: '#f5f5f5',
+    transition: 'background 0.2s',
+    '&:hover': {
+      backgroundColor: '#e0e0e0',
+    },
   },
 };
 
@@ -121,7 +137,6 @@ function CheckoutWithCallbacks({ deploymentTaskId }: any) {
       router.push(
         `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`
       );
-      // window.location.href = `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`;
       setTimeout(() => {
         setShowCheckout(false);
       }, 2000);
@@ -165,16 +180,10 @@ export default function Minter({
   deploymentTaskId,
   loading,
 }: MinterProps) {
-  const projectId = process.env.NEXT_PUBLIC_CROSSMINT_PROJECT_ID as string;
-  const collectionId = process.env
-    .NEXT_PUBLIC_CROSSMINT_COLLECTION_ID as string;
-  const environment = process.env.NEXT_PUBLIC_CROSSMINT_ENVIRONMENT as string;
+  const [open, setOpen] = useState(false);
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
-  const crossmintBtnRef = useRef<HTMLDivElement>(null);
-
-  const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
@@ -244,27 +253,11 @@ export default function Minter({
                     onClose={handleClose}
                     aria-labelledby='modal-modal-title'
                     aria-describedby='modal-modal-description'
+                    sx={{ mx: 2.5 }}
                   >
                     <Box sx={styles.model} position={'relative'}>
                       <Box
-                        sx={{
-                          position: 'absolute',
-                          top: 8,
-                          right: 8,
-                          zIndex: 1,
-                          cursor: 'pointer',
-                          width: 32,
-                          height: 32,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          borderRadius: '50%',
-                          backgroundColor: '#f5f5f5',
-                          transition: 'background 0.2s',
-                          '&:hover': {
-                            backgroundColor: '#e0e0e0',
-                          },
-                        }}
+                        sx={styles.modelCloseButton}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleClose();

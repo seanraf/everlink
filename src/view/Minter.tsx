@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Box, Grid2, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { MinterProps } from '@/types';
-import { CrossmintPayButton } from '@crossmint/client-sdk-react-ui';
+import {
+  CrossmintCheckoutProvider,
+  CrossmintHostedCheckout,
+  useCrossmintCheckout,
+} from '@crossmint/client-sdk-react-ui';
 import localFont from 'next/font/local';
 import Loader from './Loader';
+import { useRouter } from 'next/navigation';
 
 const styles = {
   containerBox: {
@@ -81,6 +86,61 @@ const nibPro = localFont({
   variable: '--font-nib-pro',
 });
 
+function CheckoutWithCallbacks({ deploymentTaskId }: any) {
+  const [showCheckout, setShowCheckout] = useState(true);
+
+  const collectionId = process.env
+    .NEXT_PUBLIC_CROSSMINT_COLLECTION_ID as string;
+  const { order } = useCrossmintCheckout();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (order && order.phase === 'completed') {
+      router.push(
+        `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`
+      );
+      setTimeout(() => {
+        setShowCheckout(false);
+      }, 2000);
+    }
+
+    if (order && order.lineItems) {
+      const hasFailedItems = order.lineItems.some(
+        (item) => item.delivery?.status === 'failed'
+      );
+
+      if (hasFailedItems) {
+        router.push(`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/failure`);
+      }
+    }
+  }, [order, router, deploymentTaskId]);
+
+  if (!showCheckout) {
+    return <div>Payment successful! Thank you for your purchase.</div>;
+  }
+
+  return (
+    <CrossmintHostedCheckout
+      lineItems={{
+        collectionLocator: `crossmint:${collectionId}`,
+        callData: {
+          totalPrice: '0.001',
+          quantity: 1,
+        },
+      }}
+      payment={{
+        crypto: { enabled: true },
+        fiat: { enabled: true },
+      }}
+      className='xmint-btn'
+      appearance={{
+        display: 'popup',
+        overlay: { enabled: false },
+      }}
+    />
+  );
+}
+
 export default function Minter({
   setActiveStep,
   renderThemePreview,
@@ -93,6 +153,8 @@ export default function Minter({
   const environment = process.env.NEXT_PUBLIC_CROSSMINT_ENVIRONMENT as string;
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+
+  const crossmintBtnRef = useRef<HTMLDivElement>(null);
   return (
     <Box sx={styles.containerBox} position={'relative'}>
       {loading && <Loader bgcolor={'#FFFFFFCC'} />}
@@ -136,29 +198,48 @@ export default function Minter({
                   xs: '6px 2px',
                 }}
               >
-                <CrossmintPayButton
-                  projectId={projectId}
-                  collectionId={collectionId}
-                  environment={environment}
-                  getButtonText={(connecting) =>
-                    connecting ? `Connecting` : `Mint`
-                  }
-                  className='xmint-btn'
-                  style={{
-                    padding: isLargeScreen ? '14px 18px' : '10px 18px',
+                <Box
+                  position={'relative'}
+                  bgcolor={'#1ab4a3'}
+                  borderRadius={'8px'}
+                  sx={{
+                    padding: isLargeScreen ? '14px 22px' : '10px 18px',
                   }}
-                  mintConfig={{
-                    type: 'erc-721',
-                    price: '5',
-                    quantity: '1',
-                  }}
-                  checkoutProps={{
-                    paymentMethods: ['fiat', 'ETH', 'SOL'],
-                    display: 'new-tab',
-                  }}
-                  successCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`}
-                  failureCallbackURL={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/failure`}
-                />
+                >
+                  <Typography
+                    sx={{
+                      cursor: 'pointer',
+                      fontWeight: 900,
+                      textAlign: 'center',
+                      color: '#FFFFFF',
+                    }}
+                    onClick={() => {
+                      const btn =
+                        crossmintBtnRef.current?.querySelector('button');
+                      if (btn) {
+                        btn.click();
+                      }
+                    }}
+                  >
+                    Mint
+                  </Typography>
+                  <Box
+                    ref={crossmintBtnRef}
+                    sx={{
+                      opacity: 0,
+                      position: 'absolute',
+                      pointerEvents: 'none',
+                      width: 0,
+                      height: 0,
+                    }}
+                  >
+                    <CrossmintCheckoutProvider>
+                      <CheckoutWithCallbacks
+                        deploymentTaskId={deploymentTaskId}
+                      />
+                    </CrossmintCheckoutProvider>
+                  </Box>
+                </Box>
               </Box>
             </Box>
           </Box>

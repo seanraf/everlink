@@ -11,6 +11,7 @@ export default function Loader({ bgcolor = '#FFFFFF' }: { bgcolor?: string }) {
         display: 'flex',
         position: 'absolute',
         bgcolor: bgcolor,
+        zIndex: 10,
       }}
     >
       <Box m={'auto'}>

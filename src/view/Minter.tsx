@@ -1,15 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { Box, Grid2, Typography, useMediaQuery, useTheme } from '@mui/material';
+import {
+  Box,
+  Grid2,
+  Modal,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import { MinterProps } from '@/types';
 import {
   CrossmintCheckoutProvider,
+  CrossmintEmbeddedCheckout,
   CrossmintHostedCheckout,
   useCrossmintCheckout,
 } from '@crossmint/client-sdk-react-ui';
 import localFont from 'next/font/local';
 import Loader from './Loader';
 import { useRouter } from 'next/navigation';
+import CloseIcon from '@mui/icons-material/Close';
 
 const styles = {
   containerBox: {
@@ -73,6 +82,19 @@ const styles = {
     width: { md: '90%', sm: '75%', xs: '90%' },
     display: 'flex',
   },
+  model: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: ' 2px solid #000',
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 4,
+    pt: 6,
+  },
 };
 
 const nibPro = localFont({
@@ -99,6 +121,7 @@ function CheckoutWithCallbacks({ deploymentTaskId }: any) {
       router.push(
         `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`
       );
+      // window.location.href = `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/success/${deploymentTaskId}`;
       setTimeout(() => {
         setShowCheckout(false);
       }, 2000);
@@ -120,7 +143,7 @@ function CheckoutWithCallbacks({ deploymentTaskId }: any) {
   }
 
   return (
-    <CrossmintHostedCheckout
+    <CrossmintEmbeddedCheckout
       lineItems={{
         collectionLocator: `crossmint:${collectionId}`,
         callData: {
@@ -131,11 +154,6 @@ function CheckoutWithCallbacks({ deploymentTaskId }: any) {
       payment={{
         crypto: { enabled: true },
         fiat: { enabled: true },
-      }}
-      className='xmint-btn'
-      appearance={{
-        display: 'popup',
-        overlay: { enabled: false },
       }}
     />
   );
@@ -155,6 +173,10 @@ export default function Minter({
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
   const crossmintBtnRef = useRef<HTMLDivElement>(null);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <Box sx={styles.containerBox} position={'relative'}>
       {loading && <Loader bgcolor={'#FFFFFFCC'} />}
@@ -204,41 +226,60 @@ export default function Minter({
                   borderRadius={'8px'}
                   sx={{
                     padding: isLargeScreen ? '14px 22px' : '10px 18px',
+                    cursor: 'pointer',
                   }}
+                  onClick={handleOpen}
                 >
                   <Typography
                     sx={{
-                      cursor: 'pointer',
                       fontWeight: 900,
                       textAlign: 'center',
                       color: '#FFFFFF',
                     }}
-                    onClick={() => {
-                      const btn =
-                        crossmintBtnRef.current?.querySelector('button');
-                      if (btn) {
-                        btn.click();
-                      }
-                    }}
                   >
                     Mint
                   </Typography>
-                  <Box
-                    ref={crossmintBtnRef}
-                    sx={{
-                      opacity: 0,
-                      position: 'absolute',
-                      pointerEvents: 'none',
-                      width: 0,
-                      height: 0,
-                    }}
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby='modal-modal-title'
+                    aria-describedby='modal-modal-description'
                   >
-                    <CrossmintCheckoutProvider>
-                      <CheckoutWithCallbacks
-                        deploymentTaskId={deploymentTaskId}
-                      />
-                    </CrossmintCheckoutProvider>
-                  </Box>
+                    <Box sx={styles.model} position={'relative'}>
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: 8,
+                          right: 8,
+                          zIndex: 1,
+                          cursor: 'pointer',
+                          width: 32,
+                          height: 32,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: '50%',
+                          backgroundColor: '#f5f5f5',
+                          transition: 'background 0.2s',
+                          '&:hover': {
+                            backgroundColor: '#e0e0e0',
+                          },
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleClose();
+                        }}
+                        aria-label='Close'
+                      >
+                        <CloseIcon fontSize='small' />
+                      </Box>
+                      <CrossmintCheckoutProvider>
+                        <CheckoutWithCallbacks
+                          deploymentTaskId={deploymentTaskId}
+                        />
+                      </CrossmintCheckoutProvider>
+                    </Box>
+                  </Modal>
                 </Box>
               </Box>
             </Box>

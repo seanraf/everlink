@@ -13,7 +13,7 @@ const styles = {
     justifyContent: 'center',
     backgroundImage: "url('/LandingBackground.png')",
     backgroundRepeat: 'round',
-    bgcolor: '#FFFFFF'
+    bgcolor: '#FFFFFF',
   },
   mainBox: {
     display: 'flex',

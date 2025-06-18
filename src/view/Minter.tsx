@@ -92,6 +92,7 @@ const styles = {
     boxShadow: 24,
     p: { md: 3, xs: 1 },
     pt: { md: 8, xs: 6 },
+    pb: 3
   },
   modelCloseButton: {
     position: 'absolute',
